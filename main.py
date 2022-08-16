@@ -110,6 +110,6 @@ if __name__ == "__main__":
     import sys
 
     input_string = sys.argv[1]
-    tokens = tokenize(input_string)
-    tree_root = create_tree(tokens)
+    nodes = tokenize(input_string)
+    tree_root = create_tree(nodes)
     print(tree_root.evaluate())
