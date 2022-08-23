@@ -30,11 +30,13 @@ class Parser:
                 Parser.tokenizer.select_next()
                 current_token = Parser.tokenizer.next
 
+            if current_token.type != 'EOF':
+                raise Exception('Invalid syntax')
             return result
         raise Exception('Invalid syntax')
 
     @staticmethod
     def run(code: str) -> int:
-        Parser.tokenizer = Tokenizer(code)
+        Parser.tokenizer = Tokenizer(code+'\0')
         Parser.tokenizer.select_next()
         return Parser.parse_expression()
