@@ -1,4 +1,4 @@
-from Tokenizer import Tokenizer
+from processes.Tokenizer import Tokenizer
 
 
 class Parser:

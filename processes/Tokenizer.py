@@ -1,4 +1,4 @@
-from Token import Token
+from tokens.Token import Token
 
 
 class Tokenizer:
