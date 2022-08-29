@@ -20,12 +20,12 @@ class Tokenizer:
         if c == '+':
             self.next = Token('PLUS', -1)
             self.position += 1
-        if c == '-':
+        elif c == '-':
             self.next = Token('MINUS', -1)
             self.position += 1
-        if c == '\0':
+        elif c == '\0':
             self.next = Token('EOF', -1)
-        if c.isdigit():
+        elif c.isdigit():
             n = ''
             i = self.position
             while i < str_size and c.isdigit():
