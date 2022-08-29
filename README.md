@@ -4,4 +4,4 @@
 
 ## Diagrama Sintático
 
-![diagrama](./src/img/diagrama-sintatico.jpg)
+![diagrama](assets/img/diagrama-sintatico.jpg)
