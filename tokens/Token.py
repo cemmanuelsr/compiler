@@ -1,4 +1,6 @@
 class Token:
-    def __init__(self, type: str, value: int) -> None:
-        self.type = type
+    def __init__(self, value: int) -> None:
         self.value = value
+
+    def type(self) -> str:
+        return 'Token'
