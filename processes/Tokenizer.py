@@ -1,4 +1,6 @@
-from tokens.Token import Token
+from tokens.OperatorToken import PlusToken, MinusToken, MultToken, DivToken
+from tokens.NumericToken import NumericToken
+from tokens.EOFToken import EOFToken
 
 
 class Tokenizer:
@@ -18,13 +20,19 @@ class Tokenizer:
                     c = self.source[i]
             self.position = i
         if c == '+':
-            self.next = Token('PLUS', -1)
+            self.next = PlusToken()
             self.position += 1
         elif c == '-':
-            self.next = Token('MINUS', -1)
+            self.next = MinusToken()
+            self.position += 1
+        elif c == '*':
+            self.next = MultToken()
+            self.position += 1
+        elif c == '/':
+            self.next = DivToken()
             self.position += 1
         elif c == '\0':
-            self.next = Token('EOF', -1)
+            self.next = EOFToken()
         elif c.isdigit():
             n = ''
             i = self.position
@@ -34,4 +42,6 @@ class Tokenizer:
                 if i <= str_size - 1:
                     c = self.source[i]
             self.position = i
-            self.next = Token('INT', int(n))
+            self.next = NumericToken(int(n))
+        else:
+            raise Exception('Invalid token')

@@ -16,7 +16,7 @@ class TestPrePro(unittest.TestCase):
         self.assertEqual(cleaned_code, PrePro._clean_spaces(code))
 
     def test_pre_process(self):
-        code = "1    + 2  *3  // some comment here"
+        code = "1    + 2  *3//some comment here"
         cleaned_code = "1+2*3"
         self.assertEqual(cleaned_code, PrePro.pre_process(code))
 

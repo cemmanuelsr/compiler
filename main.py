@@ -1,5 +1,5 @@
 from processes.PrePro import PrePro
-from parser.Parser import Parser
+from parsers.Parser import Parser
 
 if __name__ == "__main__":
     import sys

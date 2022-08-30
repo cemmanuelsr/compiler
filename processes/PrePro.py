@@ -5,7 +5,7 @@ class PrePro:
 
     @staticmethod
     def _clean_comments(code: str):
-        return re.sub(r"\s+//.*", "", code)
+        return re.sub(r"\s*//.*", "", code)
 
     @staticmethod
     def _clean_spaces(code: str):

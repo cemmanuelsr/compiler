@@ -11,19 +11,19 @@ class Parser:
             result = current_token.value
             Parser.tokenizer.select_next()
             current_token = Parser.tokenizer.next
-            while current_token.type in ['PLUS', 'MINUS']:
-                if current_token.type == 'PLUS':
+            while current_token.type in ['MULT', 'DIV']:
+                if current_token.type == 'MULT':
                     Parser.tokenizer.select_next()
                     current_token = Parser.tokenizer.next
                     if current_token.type == 'INT':
-                        result += current_token.value
+                        result *= current_token.value
                     else:
                         raise Exception('Invalid syntax')
-                if current_token.type == 'MINUS':
+                if current_token.type == 'DIV':
                     Parser.tokenizer.select_next()
                     current_token = Parser.tokenizer.next
                     if current_token.type == 'INT':
-                        result -= current_token.value
+                        result //= current_token.value
                     else:
                         raise Exception('Invalid syntax')
 
