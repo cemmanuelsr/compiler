@@ -1,42 +1,79 @@
+from processes.PrePro import PrePro
 from processes.Tokenizer import Tokenizer
+
+from tokens.NumericToken import NumericToken
+from tokens.OperatorToken import PlusToken, MinusToken, MultToken, DivToken
+from tokens.EOFToken import EOFToken
 
 
 class Parser:
     tokenizer: Tokenizer = None
+    current_token = None
+
+    @staticmethod
+    def parse_term() -> int:
+        Parser.current_token = Parser.tokenizer.next
+        if isinstance(Parser.current_token, NumericToken):
+            result = Parser.current_token.value
+            Parser.tokenizer.select_next()
+            Parser.current_token = Parser.tokenizer.next
+            while isinstance(Parser.current_token, (MultToken, DivToken)):
+                if isinstance(Parser.current_token, MultToken):
+                    Parser.tokenizer.select_next()
+                    Parser.current_token = Parser.tokenizer.next
+                    if isinstance(Parser.current_token, NumericToken):
+                        result *= Parser.current_token.value
+                    else:
+                        raise Exception("Invalid syntax")
+                if isinstance(Parser.current_token, DivToken):
+                    Parser.tokenizer.select_next()
+                    Parser.current_token = Parser.tokenizer.next
+                    if isinstance(Parser.current_token, NumericToken):
+                        result //= Parser.current_token.value
+                    else:
+                        raise Exception("Invalid syntax")
+
+                Parser.tokenizer.select_next()
+                Parser.current_token = Parser.tokenizer.next
+
+            return result
+        raise Exception("Invalid syntax")
 
     @staticmethod
     def parse_expression() -> int:
-        current_token = Parser.tokenizer.next
-        if current_token.type == 'INT':
-            result = current_token.value
-            Parser.tokenizer.select_next()
-            current_token = Parser.tokenizer.next
-            while current_token.type in ['MULT', 'DIV']:
-                if current_token.type == 'MULT':
+        Parser.tokenizer.select_next()
+        Parser.current_token = Parser.tokenizer.next
+
+        if isinstance(Parser.current_token, NumericToken):
+            result = Parser.parse_term()
+            Parser.current_token = Parser.tokenizer.next
+            while isinstance(Parser.current_token, (PlusToken, MinusToken)):
+                if isinstance(Parser.current_token, PlusToken):
                     Parser.tokenizer.select_next()
-                    current_token = Parser.tokenizer.next
-                    if current_token.type == 'INT':
-                        result *= current_token.value
+                    Parser.current_token = Parser.tokenizer.next
+                    if isinstance(Parser.current_token, NumericToken):
+                        result += Parser.parse_term()
                     else:
-                        raise Exception('Invalid syntax')
-                if current_token.type == 'DIV':
+                        raise Exception("Invalid syntax")
+                if isinstance(Parser.current_token, MinusToken):
                     Parser.tokenizer.select_next()
-                    current_token = Parser.tokenizer.next
-                    if current_token.type == 'INT':
-                        result //= current_token.value
+                    Parser.current_token = Parser.tokenizer.next
+                    if isinstance(Parser.current_token, NumericToken):
+                        result -= Parser.parse_term()
                     else:
-                        raise Exception('Invalid syntax')
+                        raise Exception("Invalid syntax")
 
                 Parser.tokenizer.select_next()
-                current_token = Parser.tokenizer.next
+                Parser.current_token = Parser.tokenizer.next
 
-            if current_token.type != 'EOF':
-                raise Exception('Invalid syntax')
             return result
-        raise Exception('Invalid syntax')
+        raise Exception("Invalid syntax")
 
     @staticmethod
     def run(code: str) -> int:
-        Parser.tokenizer = Tokenizer(code+'\0')
-        Parser.tokenizer.select_next()
-        return Parser.parse_expression()
+        code = PrePro.pre_process(code)
+        Parser.tokenizer = Tokenizer(code+"\0")
+        result = Parser.parse_expression()
+        if not isinstance(Parser.current_token, EOFToken):
+            raise Exception("Invalid syntax")
+        return result
