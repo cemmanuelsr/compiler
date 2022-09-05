@@ -9,17 +9,7 @@
 ## EBNF
 
 ```
-<number> ::= [0-9]+
-
-<operator> ::= +
-             | -
-             | *
-             | /
-             
-<term> ::= <term> * <number>
-         | <term> / <number>
-        
-<expression> ::= <term>
-               | <expression> + <term>
-               | <expression> - <term>
+FACTOR = ("+" | "-") FACTOR | "(" EXPRESSION ")" | number ;
+TERM = FACTOR, { ("*" | "/"), FACTOR } ;
+EXPRESSION = TERM, { ("+" | "-"), TERM } ;
 ```
