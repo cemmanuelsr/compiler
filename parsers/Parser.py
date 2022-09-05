@@ -7,6 +7,10 @@ from tokens.ParenthesisToken import OpenParenthesisToken, CloseParenthesisToken
 from tokens.EOFToken import EOFToken
 
 
+def is_a_possible_token(token):
+    return isinstance(token, (NumericToken, PlusToken, MinusToken, OpenParenthesisToken))
+
+
 class Parser:
     tokenizer: Tokenizer = None
     current_token = None
@@ -26,19 +30,15 @@ class Parser:
             return -result
         if isinstance(Parser.current_token, OpenParenthesisToken):
             result = Parser.parse_expression()
-            Parser.tokenizer.select_next()
             Parser.current_token = Parser.tokenizer.next
             if isinstance(Parser.current_token, CloseParenthesisToken):
-                Parser.tokenizer.select_next()
-                Parser.current_token = Parser.tokenizer.next
                 return result
-            print(Parser.current_token.type)
             raise Exception("Invalid syntax")
 
     @staticmethod
     def parse_term() -> int:
         Parser.current_token = Parser.tokenizer.next
-        if isinstance(Parser.current_token, (NumericToken, PlusToken, MinusToken, OpenParenthesisToken)):
+        if is_a_possible_token(Parser.current_token):
             result = Parser.parse_factor()
             Parser.tokenizer.select_next()
             Parser.current_token = Parser.tokenizer.next
@@ -46,19 +46,19 @@ class Parser:
                 if isinstance(Parser.current_token, MultToken):
                     Parser.tokenizer.select_next()
                     Parser.current_token = Parser.tokenizer.next
-                    if isinstance(Parser.current_token, NumericToken):
+                    if is_a_possible_token(Parser.current_token):
                         result *= Parser.parse_factor()
                     else:
                         raise Exception("Invalid syntax")
                 if isinstance(Parser.current_token, DivToken):
                     Parser.tokenizer.select_next()
                     Parser.current_token = Parser.tokenizer.next
-                    if isinstance(Parser.current_token, NumericToken):
+                    if is_a_possible_token(Parser.current_token):
                         result //= Parser.parse_factor()
                     else:
                         raise Exception("Invalid syntax")
 
-                # Parser.tokenizer.select_next()
+                Parser.tokenizer.select_next()
                 Parser.current_token = Parser.tokenizer.next
 
             return result
@@ -76,14 +76,14 @@ class Parser:
                 if isinstance(Parser.current_token, PlusToken):
                     Parser.tokenizer.select_next()
                     Parser.current_token = Parser.tokenizer.next
-                    if isinstance(Parser.current_token, NumericToken):
+                    if is_a_possible_token(Parser.current_token):
                         result += Parser.parse_term()
                     else:
                         raise Exception("Invalid syntax")
                 if isinstance(Parser.current_token, MinusToken):
                     Parser.tokenizer.select_next()
                     Parser.current_token = Parser.tokenizer.next
-                    if isinstance(Parser.current_token, NumericToken):
+                    if is_a_possible_token(Parser.current_token):
                         result -= Parser.parse_term()
                     else:
                         raise Exception("Invalid syntax")
@@ -97,7 +97,7 @@ class Parser:
     @staticmethod
     def run(code: str) -> int:
         code = PrePro.pre_process(code)
-        Parser.tokenizer = Tokenizer(code+"\0")
+        Parser.tokenizer = Tokenizer(code + "\0")
         result = Parser.parse_expression()
         if not isinstance(Parser.current_token, EOFToken):
             raise Exception("Invalid syntax")
