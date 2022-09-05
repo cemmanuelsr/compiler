@@ -1,6 +1,7 @@
 from tokens.OperatorToken import PlusToken, MinusToken, MultToken, DivToken
 from tokens.NumericToken import NumericToken
 from tokens.EOFToken import EOFToken
+from tokens.ParenthesisToken import OpenParenthesisToken, CloseParenthesisToken
 
 
 class Tokenizer:
@@ -30,6 +31,12 @@ class Tokenizer:
             self.position += 1
         elif c == '/':
             self.next = DivToken()
+            self.position += 1
+        elif c == '(':
+            self.next = OpenParenthesisToken()
+            self.position += 1
+        elif c == ')':
+            self.next = CloseParenthesisToken()
             self.position += 1
         elif c == '\0':
             self.next = EOFToken()
