@@ -16,7 +16,8 @@
              | *
              | /
              
-<term> ::= <term> * <number>
+<term> ::= <number>
+         | <term> * <number>
          | <term> / <number>
         
 <expression> ::= <term>
