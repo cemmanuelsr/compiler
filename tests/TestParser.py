@@ -3,7 +3,7 @@ import unittest
 from parsers.Parser import Parser
 
 
-class TestTokenizer(unittest.TestCase):
+class TestParser(unittest.TestCase):
 
     def test_1(self):
         code = "   100   +  100  -100+  1"
