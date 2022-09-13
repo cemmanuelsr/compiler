@@ -3,4 +3,4 @@ class Token:
         self.value = value
 
     def type(self) -> str:
-        return 'Token'
+        ...

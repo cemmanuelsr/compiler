@@ -4,4 +4,4 @@ class Node:
         self.children = []
 
     def evaluate(self):
-        pass
+        ...
