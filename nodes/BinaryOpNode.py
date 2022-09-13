@@ -9,7 +9,7 @@ class BinaryOpNode(Node):
         if self.value == '+':
             return self.children[0].evaluate() + self.children[1].evaluate()
         if self.value == '-':
-            return self.children[0].evaluate() + self.children[1].evaluate()
+            return self.children[0].evaluate() - self.children[1].evaluate()
         if self.value == '*':
             return self.children[0].evaluate() * self.children[1].evaluate()
         if self.value == '/':

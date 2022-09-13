@@ -7,4 +7,4 @@ if __name__ == "__main__":
     codes = sys.argv[1:]
     for code in codes:
         code = PrePro.pre_process(code)
-        print(Parser.run(code))
+        print(Parser.run(code).evaluate())
