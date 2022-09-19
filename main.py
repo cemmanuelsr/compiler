@@ -1,4 +1,5 @@
 from parsers.Parser import Parser
+from processes.PrePro import PrePro
 
 if __name__ == "__main__":
     import sys
@@ -9,4 +10,6 @@ if __name__ == "__main__":
 
     with open(file, "r") as f:
         code = f.read()
+
+    code = PrePro.pre_process(code)
     print(Parser.run(code).evaluate())

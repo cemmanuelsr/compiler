@@ -121,7 +121,6 @@ class Parser:
 
     @staticmethod
     def run(code: str) -> Node:
-        code = PrePro.pre_process(code)
         Parser.tokenizer = Tokenizer(code + "\0")
         root = Parser.parse_expression()
         if not isinstance(Parser.current_token, EOFToken):

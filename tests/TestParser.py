@@ -37,5 +37,6 @@ class TestParser(unittest.TestCase):
         code = "40+-+-2"
         self.assertEqual(Parser.run(code).evaluate(), 42)
 
+
 if __name__ == "__main__":
     unittest.main()
