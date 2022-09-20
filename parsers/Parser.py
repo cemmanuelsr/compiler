@@ -1,19 +1,27 @@
-from processes.PrePro import PrePro
 from processes.Tokenizer import Tokenizer
 
 from tokens.NumericToken import NumericToken
 from tokens.OperatorToken import PlusToken, MinusToken, MultToken, DivToken
 from tokens.ParenthesisToken import OpenParenthesisToken, CloseParenthesisToken
+from tokens.BracketToken import OpenBracketToken, CloseBracketToken
+from tokens.IdentifierToken import IdentifierToken
+from tokens.AssignmentToken import AssignmentToken
+from tokens.PrintToken import PrintToken
+from tokens.SemicolonToken import SemicolonToken
 from tokens.EOFToken import EOFToken
 
 from nodes.Node import Node
 from nodes.IntegerNode import IntegerNode
 from nodes.UnaryOpNode import UnaryOpNode
 from nodes.BinaryOpNode import BinaryOpNode
+from nodes.AssignmentNode import AssignmentNode
+from nodes.IdentifierNode import IdentifierNode
+from nodes.PrintNode import PrintNode
+from nodes.BlockNode import BlockNode
 
 
 def is_a_possible_token(token):
-    return isinstance(token, (NumericToken, PlusToken, MinusToken, OpenParenthesisToken))
+    return isinstance(token, (NumericToken, PlusToken, MinusToken, OpenParenthesisToken, IdentifierToken))
 
 
 class Parser:
@@ -25,6 +33,8 @@ class Parser:
         Parser.current_token = Parser.tokenizer.next
         if isinstance(Parser.current_token, NumericToken):
             return IntegerNode(Parser.current_token.value)
+        if isinstance(Parser.current_token, IdentifierToken):
+            return IdentifierNode(Parser.current_token.value)
         if isinstance(Parser.current_token, PlusToken):
             node = UnaryOpNode('+')
             Parser.tokenizer.select_next()
@@ -42,7 +52,7 @@ class Parser:
             Parser.current_token = Parser.tokenizer.next
             if isinstance(Parser.current_token, CloseParenthesisToken):
                 return result
-            raise Exception("Invalid syntax")
+            raise Exception("You must close your parenthesis, little man")
 
     @staticmethod
     def parse_term() -> Node:
@@ -86,7 +96,7 @@ class Parser:
         Parser.tokenizer.select_next()
         Parser.current_token = Parser.tokenizer.next
 
-        if isinstance(Parser.current_token, (NumericToken, PlusToken, MinusToken, OpenParenthesisToken)):
+        if is_a_possible_token(Parser.current_token):
             node = Parser.parse_term()
             Parser.current_token = Parser.tokenizer.next
             while isinstance(Parser.current_token, (PlusToken, MinusToken)):
@@ -120,9 +130,69 @@ class Parser:
         raise Exception("Invalid syntax")
 
     @staticmethod
+    def parse_statement() -> Node:
+        Parser.current_token = Parser.tokenizer.next
+        node = None
+
+        if isinstance(Parser.current_token, IdentifierToken):
+            left_child = IdentifierNode(Parser.current_token.value)
+
+            Parser.tokenizer.select_next()
+            Parser.current_token = Parser.tokenizer.next
+
+            if isinstance(Parser.current_token, AssignmentToken):
+                node = AssignmentNode()
+                node.children.append(left_child)
+                right_child = Parser.parse_expression()
+                node.children.append(right_child)
+            else:
+                raise Exception("Incorrect assignment expression")
+
+        elif isinstance(Parser.current_token, PrintToken):
+            node = PrintNode()
+
+            Parser.tokenizer.select_next()
+            Parser.current_token = Parser.tokenizer.next
+
+            if isinstance(Parser.current_token, OpenParenthesisToken):
+                result = Parser.parse_expression()
+                Parser.current_token = Parser.tokenizer.next
+                if not isinstance(Parser.current_token, CloseParenthesisToken):
+                    raise Exception("You must close your parenthesis, little man")
+                node.children.append(result)
+                Parser.tokenizer.select_next()
+                Parser.current_token = Parser.tokenizer.next
+
+        if isinstance(Parser.current_token, SemicolonToken):
+            return node
+
+        raise Exception("Missing semicolon marker")
+
+    @staticmethod
+    def parse_block() -> Node:
+        node = BlockNode()
+        Parser.tokenizer.select_next()
+        Parser.current_token = Parser.tokenizer.next
+
+        if isinstance(Parser.current_token, OpenBracketToken):
+            Parser.tokenizer.select_next()
+            Parser.current_token = Parser.tokenizer.next
+            while not isinstance(Parser.current_token, CloseBracketToken):
+                result = Parser.parse_statement()
+                Parser.tokenizer.select_next()
+                Parser.current_token = Parser.tokenizer.next
+                node.children.append(result)
+                if isinstance(Parser.current_token, EOFToken):
+                    raise Exception("You must close your brackets, little man")
+
+        Parser.tokenizer.select_next()
+        Parser.current_token = Parser.tokenizer.next
+        return node
+
+    @staticmethod
     def run(code: str) -> Node:
         Parser.tokenizer = Tokenizer(code + "\0")
-        root = Parser.parse_expression()
+        root = Parser.parse_block()
         if not isinstance(Parser.current_token, EOFToken):
             raise Exception("Invalid syntax")
         return root
