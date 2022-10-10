@@ -10,3 +10,5 @@ class UnaryOpNode(Node):
             return self.children[0].evaluate()
         if self.value == '-':
             return -self.children[0].evaluate()
+        if self.value == '!':
+            return not self.children[0].evaluate()

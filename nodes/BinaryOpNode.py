@@ -14,3 +14,13 @@ class BinaryOpNode(Node):
             return self.children[0].evaluate() * self.children[1].evaluate()
         if self.value == '/':
             return self.children[0].evaluate() // self.children[1].evaluate()
+        if self.value == '&&':
+            return self.children[0].evaluate() and self.children[1].evaluate()
+        if self.value == '||':
+            return self.children[0].evaluate() or self.children[1].evaluate()
+        if self.value == '==':
+            return self.children[0].evaluate() == self.children[1].evaluate()
+        if self.value == '>':
+            return self.children[0].evaluate() > self.children[1].evaluate()
+        if self.value == '<':
+            return self.children[0].evaluate() < self.children[1].evaluate()
