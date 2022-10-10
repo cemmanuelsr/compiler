@@ -1,15 +1,21 @@
-from tokens.OperatorToken import PlusToken, MinusToken, MultToken, DivToken
+from tokens.OperatorToken import PlusToken, MinusToken, MultToken, DivToken, AndToken, OrToken, NotToken, EqualToken, GreaterThenToken, LessThenToken
 from tokens.NumericToken import NumericToken
 from tokens.EOFToken import EOFToken
 from tokens.ParenthesisToken import OpenParenthesisToken, CloseParenthesisToken
 from tokens.BracketToken import OpenBracketToken, CloseBracketToken
 from tokens.AssignmentToken import AssignmentToken
 from tokens.IdentifierToken import IdentifierToken
-from tokens.FunctionToken import PrintToken
+from tokens.FunctionToken import PrintToken, ReadToken
 from tokens.SemicolonToken import SemicolonToken
+from tokens.ConditionalToken import IfToken, ElseToken
+from tokens.LoopToken import WhileToken
 
 func_token_map = {
-    'Print': PrintToken
+    'Print': PrintToken,
+    'Read': ReadToken,
+    'while': WhileToken,
+    'if': IfToken,
+    'else': ElseToken
 }
 
 
@@ -58,6 +64,21 @@ class Tokenizer:
         elif c == '/':
             self.next = DivToken()
             self.position += 1
+        elif c == '&':
+            if self.position+1 < str_size and self.source[self.position+1] == '&':
+                self.next = AndToken()
+                self.position += 2
+            else:
+                raise Exception('Invalid syntax')
+        elif c == '|':
+            if self.position + 1 < str_size and self.source[self.position + 1] == '|':
+                self.next = OrToken()
+                self.position += 2
+            else:
+                raise Exception('Invalid syntax')
+        elif c == '!':
+            self.next = NotToken()
+            self.position += 1
         elif c == '(':
             self.next = OpenParenthesisToken()
             self.position += 1
@@ -74,7 +95,17 @@ class Tokenizer:
             self.next = SemicolonToken()
             self.position += 1
         elif c == '=':
-            self.next = AssignmentToken()
+            if self.position+1 < str_size and self.source[self.position+1] == '=':
+                self.next = EqualToken()
+                self.position += 2
+            else:
+                self.next = AssignmentToken()
+                self.position += 1
+        elif c == '>':
+            self.next = GreaterThenToken()
+            self.position += 1
+        elif c == '<':
+            self.next = LessThenToken()
             self.position += 1
         elif c == '\0':
             self.next = EOFToken()
