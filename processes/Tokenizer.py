@@ -5,7 +5,7 @@ from tokens.ParenthesisToken import OpenParenthesisToken, CloseParenthesisToken
 from tokens.BracketToken import OpenBracketToken, CloseBracketToken
 from tokens.AssignmentToken import AssignmentToken
 from tokens.IdentifierToken import IdentifierToken
-from tokens.PrintToken import PrintToken
+from tokens.FunctionToken import PrintToken
 from tokens.SemicolonToken import SemicolonToken
 
 func_token_map = {

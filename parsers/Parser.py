@@ -6,7 +6,7 @@ from tokens.ParenthesisToken import OpenParenthesisToken, CloseParenthesisToken
 from tokens.BracketToken import OpenBracketToken, CloseBracketToken
 from tokens.IdentifierToken import IdentifierToken
 from tokens.AssignmentToken import AssignmentToken
-from tokens.PrintToken import PrintToken
+from tokens.FunctionToken import PrintToken
 from tokens.SemicolonToken import SemicolonToken
 from tokens.EOFToken import EOFToken
 

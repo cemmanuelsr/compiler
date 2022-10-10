@@ -1,24 +1,24 @@
 from .Token import Token
 
 
-class BracketToken(Token):
+class ConditionalToken(Token):
     def __init__(self, value) -> None:
         super().__init__(value)
 
 
-class OpenBracketToken(BracketToken):
+class IfToken(ConditionalToken):
     def __init__(self) -> None:
-        super().__init__('{')
+        super().__init__('if')
 
     @property
     def type(self) -> str:
-        return 'OPEN BRACKET'
+        return 'IF'
 
 
-class CloseBracketToken(BracketToken):
+class ElseToken(ConditionalToken):
     def __init__(self) -> None:
-        super().__init__('}')
+        super().__init__('else')
 
     @property
     def type(self) -> str:
-        return 'CLOSE BRACKET'
+        return 'ELSE'

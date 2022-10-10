@@ -7,4 +7,4 @@ class NumericToken(Token):
 
     @property
     def type(self) -> str:
-        return 'NUM'
+        return 'NUMBER'
