@@ -11,4 +11,8 @@ if __name__ == "__main__":
     with open(file, "r") as f:
         code = f.read()
 
+    lines = code.split('\n')
+    lines = [PrePro.pre_process(line).strip() for line in lines]
+    code = '\n'.join(lines)
+
     Parser.run(code).evaluate()

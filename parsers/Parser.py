@@ -246,6 +246,10 @@ class Parser:
             Parser.current_token = Parser.tokenizer.next
             if not isinstance(Parser.current_token, SemicolonToken):
                 raise Exception("Missing semicolon marker")
+            else:
+                if isinstance(Parser.tokenizer.see_next()[0], CloseBracketToken):
+                    Parser.tokenizer.select_next()
+                    Parser.current_token = Parser.tokenizer.next
 
         elif isinstance(Parser.current_token, PrintToken):
             node = PrintNode()
@@ -265,6 +269,10 @@ class Parser:
             Parser.current_token = Parser.tokenizer.next
             if not isinstance(Parser.current_token, SemicolonToken):
                 raise Exception("Missing semicolon marker")
+            else:
+                if isinstance(Parser.tokenizer.see_next()[0], CloseBracketToken):
+                    Parser.tokenizer.select_next()
+                    Parser.current_token = Parser.tokenizer.next
 
         elif isinstance(Parser.current_token, WhileToken):
             node = WhileNode()
@@ -315,18 +323,16 @@ class Parser:
         node = BlockNode()
 
         if isinstance(Parser.current_token, OpenBracketToken):
-            # Parser.tokenizer.select_next()
-            # Parser.current_token = Parser.tokenizer.next
             while not isinstance(Parser.current_token, CloseBracketToken):
                 result = Parser.parse_statement()
-                # Parser.tokenizer.select_next()
-                # Parser.current_token = Parser.tokenizer.next
                 node.children.append(result)
+                if isinstance(Parser.current_token, CloseBracketToken):
+                    if not isinstance(Parser.tokenizer.see_next()[0], EOFToken):
+                        Parser.current_token = None
+                        break
                 if isinstance(Parser.current_token, EOFToken):
                     raise Exception("You must close your brackets, little man")
 
-        Parser.tokenizer.select_next()
-        Parser.current_token = Parser.tokenizer.next
         return node
 
     @staticmethod
@@ -335,6 +341,8 @@ class Parser:
         Parser.tokenizer.select_next()
         Parser.current_token = Parser.tokenizer.next
         root = Parser.parse_block()
+        Parser.tokenizer.select_next()
+        Parser.current_token = Parser.tokenizer.next
         if not isinstance(Parser.current_token, EOFToken):
             raise Exception("Invalid syntax")
         return root
