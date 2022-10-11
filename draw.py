@@ -8,4 +8,4 @@ if __name__ == "__main__":
     if file.split('.')[-1] != 'dot':
         raise Exception('You must pass a dot file')
 
-    subprocess.call(["dot","-Tsvg",file,"-o",f"assets/img/{filename.svg}"])
+    subprocess.call(["dot","-Tsvg",file,"-o",f"assets/img/{filename}.svg"])
