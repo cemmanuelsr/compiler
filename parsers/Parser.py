@@ -225,6 +225,7 @@ class Parser:
 
     @staticmethod
     def parse_statement() -> Node:
+        Parser.tokenizer.select_next()
         Parser.current_token = Parser.tokenizer.next
         node = None
 
@@ -243,9 +244,7 @@ class Parser:
                 raise Exception("Incorrect assignment expression")
 
             Parser.current_token = Parser.tokenizer.next
-            if isinstance(Parser.current_token, SemicolonToken):
-                return node
-            else:
+            if not isinstance(Parser.current_token, SemicolonToken):
                 raise Exception("Missing semicolon marker")
 
         elif isinstance(Parser.current_token, PrintToken):
@@ -264,9 +263,7 @@ class Parser:
                 Parser.current_token = Parser.tokenizer.next
 
             Parser.current_token = Parser.tokenizer.next
-            if isinstance(Parser.current_token, SemicolonToken):
-                return node
-            else:
+            if not isinstance(Parser.current_token, SemicolonToken):
                 raise Exception("Missing semicolon marker")
 
         elif isinstance(Parser.current_token, WhileToken):
@@ -281,8 +278,6 @@ class Parser:
                 if not isinstance(Parser.current_token, CloseParenthesisToken):
                     raise Exception("You must close your parenthesis, little man")
                 node.children.append(result)
-                Parser.tokenizer.select_next()
-                Parser.current_token = Parser.tokenizer.next
                 stmt = Parser.parse_statement()
                 node.children.append(stmt)
 
@@ -298,35 +293,34 @@ class Parser:
                 if not isinstance(Parser.current_token, CloseParenthesisToken):
                     raise Exception("You must close your parenthesis, little man")
                 node.children.append(result)
-                Parser.tokenizer.select_next()
-                Parser.current_token = Parser.tokenizer.next
                 stmt = Parser.parse_statement()
                 node.children.append(stmt)
+                Parser.tokenizer.select_next()
                 Parser.current_token = Parser.tokenizer.next
                 if isinstance(Parser.current_token, ElseToken):
                     else_node = ConditionNode('Else')
-                    Parser.tokenizer.select_next()
-                    Parser.current_token = Parser.tokenizer.next
                     stmt = Parser.parse_statement()
                     else_node.children.append(stmt)
                     node.children.append(else_node)
 
         else:
-            Parser.parse_block()
+            node = Parser.parse_block()
+
+        if node is None:
+            raise Exception("Unexpected error")
+        return node
 
     @staticmethod
     def parse_block() -> Node:
         node = BlockNode()
-        Parser.tokenizer.select_next()
-        Parser.current_token = Parser.tokenizer.next
 
         if isinstance(Parser.current_token, OpenBracketToken):
-            Parser.tokenizer.select_next()
-            Parser.current_token = Parser.tokenizer.next
+            # Parser.tokenizer.select_next()
+            # Parser.current_token = Parser.tokenizer.next
             while not isinstance(Parser.current_token, CloseBracketToken):
                 result = Parser.parse_statement()
-                Parser.tokenizer.select_next()
-                Parser.current_token = Parser.tokenizer.next
+                # Parser.tokenizer.select_next()
+                # Parser.current_token = Parser.tokenizer.next
                 node.children.append(result)
                 if isinstance(Parser.current_token, EOFToken):
                     raise Exception("You must close your brackets, little man")
@@ -338,6 +332,8 @@ class Parser:
     @staticmethod
     def run(code: str) -> Node:
         Parser.tokenizer = Tokenizer(code + "\0")
+        Parser.tokenizer.select_next()
+        Parser.current_token = Parser.tokenizer.next
         root = Parser.parse_block()
         if not isinstance(Parser.current_token, EOFToken):
             raise Exception("Invalid syntax")

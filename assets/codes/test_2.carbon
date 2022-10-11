@@ -12,4 +12,8 @@
 
         i = i + 1;
     }
+    Print(x);
+    Print(y);
+    Print(n);
+    Print(i);
 }

@@ -6,7 +6,7 @@ class ConditionNode(Node):
         super().__init__(value)
 
     def evaluate(self):
-        if value == 'Else':
+        if self.value == 'Else':
             self.children[0].evaluate()
         elif self.children[0].evaluate():
             self.children[1].evaluate()
