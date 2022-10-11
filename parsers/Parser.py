@@ -168,7 +168,7 @@ class Parser:
                     else:
                         raise Exception("Invalid syntax")
 
-                Parser.tokenizer.select_next()
+                # Parser.tokenizer.select_next()
                 Parser.current_token = Parser.tokenizer.next
 
             return node
