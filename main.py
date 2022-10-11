@@ -1,10 +1,12 @@
 from parsers.Parser import Parser
 from processes.PrePro import PrePro
+from processes.WriteDotFile import Writer
 
 if __name__ == "__main__":
     import sys
 
     file = sys.argv[1]
+    filename = file.split('/')[-1].split('.')[:-1][0]
     if file.split('.')[-1] != 'carbon':
         raise Exception('You must pass a carbon file')
 
@@ -15,4 +17,6 @@ if __name__ == "__main__":
     lines = [PrePro.pre_process(line).strip() for line in lines]
     code = '\n'.join(lines)
 
-    Parser.run(code).evaluate()
+    root = Parser.run(code)
+    Writer.write(root, filename)
+    root.evaluate()
