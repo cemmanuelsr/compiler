@@ -1,4 +1,5 @@
-from tokens.OperatorToken import PlusToken, MinusToken, MultToken, DivToken, AndToken, OrToken, NotToken, EqualToken, GreaterThenToken, LessThenToken
+from tokens.OperatorToken import PlusToken, MinusToken, MultToken, DivToken, AndToken, OrToken, NotToken, EqualToken, \
+    GreaterThenToken, LessThenToken
 from tokens.NumericToken import NumericToken
 from tokens.EOFToken import EOFToken
 from tokens.ParenthesisToken import OpenParenthesisToken, CloseParenthesisToken
@@ -65,7 +66,7 @@ class Tokenizer:
             self.next = DivToken()
             self.position += 1
         elif c == '&':
-            if self.position+1 < str_size and self.source[self.position+1] == '&':
+            if self.position + 1 < str_size and self.source[self.position + 1] == '&':
                 self.next = AndToken()
                 self.position += 2
             else:
@@ -95,7 +96,7 @@ class Tokenizer:
             self.next = SemicolonToken()
             self.position += 1
         elif c == '=':
-            if self.position+1 < str_size and self.source[self.position+1] == '=':
+            if self.position + 1 < str_size and self.source[self.position + 1] == '=':
                 self.next = EqualToken()
                 self.position += 2
             else:
