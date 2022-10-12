@@ -6,4 +6,4 @@ class ReadNode(Node):
         super().__init__('Read')
 
     def evaluate(self):
-        return int(input('> '))
+        return int(input(''))

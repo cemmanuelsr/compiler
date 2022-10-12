@@ -1,0 +1,20 @@
+graph g {
+n0 [label = "Block", shape="square"]
+n1 [label = "=", shape="diamond"]
+n2 [label = "x", shape="circle"]
+n3 [label = "Read", shape="square"]
+n4 [label = "=", shape="diamond"]
+n5 [label = "y", shape="circle"]
+n6 [label = "Read", shape="square"]
+n7 [label = "Print", shape="square"]
+n8 [label = "+", shape="diamond"]
+n9 [label = "x", shape="circle"]
+n10 [label = "y", shape="circle"]
+
+"n0" -- "n1" -- "n2"
+"n1" -- "n3"
+"n0" -- "n4" -- "n5"
+"n4" -- "n6"
+"n0" -- "n7" -- "n8" -- "n9"
+"n8" -- "n10"
+}

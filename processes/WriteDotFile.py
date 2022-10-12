@@ -43,6 +43,9 @@ class Writer:
 
     @staticmethod
     def write(root: Node, filename: str, path: str = 'graphs/dot') -> None:
+        Writer.node_name_map = {}
+        Writer.dof_file_header = ''
+        Writer.index = 0
         body = '"\n"'.join(Writer.create_node_with_children(root).split('""'))
         dot_file_content = 'graph g {\n'
         dot_file_content += (Writer.dof_file_header + '\n')

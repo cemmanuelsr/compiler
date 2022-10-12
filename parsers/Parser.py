@@ -27,7 +27,7 @@ from nodes.BlockNode import BlockNode
 
 
 def is_a_possible_token(token):
-    return isinstance(token, (NumericToken, PlusToken, MinusToken, OpenParenthesisToken, IdentifierToken, NotToken))
+    return isinstance(token, (NumericToken, PlusToken, MinusToken, OpenParenthesisToken, IdentifierToken, NotToken, ReadToken))
 
 
 class Parser:
@@ -303,8 +303,9 @@ class Parser:
                 node.children.append(result)
                 stmt = Parser.parse_statement()
                 node.children.append(stmt)
-                Parser.tokenizer.select_next()
-                Parser.current_token = Parser.tokenizer.next
+                if not isinstance(Parser.tokenizer.see_next()[0], EOFToken):
+                    Parser.tokenizer.select_next()
+                    Parser.current_token = Parser.tokenizer.next
                 if isinstance(Parser.current_token, ElseToken):
                     else_node = ConditionNode('Else')
                     stmt = Parser.parse_statement()
@@ -323,16 +324,26 @@ class Parser:
         node = BlockNode()
 
         if isinstance(Parser.current_token, OpenBracketToken):
+            if isinstance(Parser.tokenizer.see_next()[0], CloseBracketToken):
+                Parser.tokenizer.select_next()
+                Parser.current_token = Parser.tokenizer.next
             while not isinstance(Parser.current_token, CloseBracketToken):
                 result = Parser.parse_statement()
                 node.children.append(result)
-                if isinstance(Parser.current_token, CloseBracketToken):
-                    if not isinstance(Parser.tokenizer.see_next()[0], EOFToken):
-                        Parser.current_token = None
-                        break
+                if isinstance(Parser.tokenizer.see_next()[0], CloseBracketToken):
+                    Parser.tokenizer.select_next()
+                    Parser.current_token = Parser.tokenizer.next
+                if isinstance(Parser.current_token, CloseBracketToken) and (not isinstance(Parser.tokenizer.see_next()[0], EOFToken)):
+                    Parser.current_token = None
+                    break
                 if isinstance(Parser.current_token, EOFToken):
                     raise Exception("You must close your brackets, little man")
+        else:
+            raise Exception("Invalid operation")
 
+        if isinstance(Parser.tokenizer.see_next()[0], EOFToken):
+            Parser.tokenizer.select_next()
+            Parser.current_token = Parser.tokenizer.next
         return node
 
     @staticmethod
