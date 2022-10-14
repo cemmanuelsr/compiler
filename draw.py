@@ -22,4 +22,4 @@ if __name__ == "__main__":
     root = Parser.run(code)
     Writer.write(root, filename)
 
-    subprocess.call(["dot","-Tsvg",file,"-o",f"assets/img/{filename}.svg"])
+    subprocess.call(["dot","-Tsvg",f"graphs/dot/{filename}.dot","-o",f"assets/img/{filename}.svg"])
