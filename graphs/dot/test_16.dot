@@ -4,11 +4,14 @@ n1 [label = "If", shape="square"]
 n2 [label = "==", shape="diamond"]
 n3 [label = "1", shape="circle"]
 n4 [label = "1", shape="circle"]
+n5 [label = "Block", shape="square"]
 n6 [label = "Print", shape="square"]
-n7 [label = "3", shape="circle"]
+n7 [label = "1", shape="circle"]
+n8 [label = "Print", shape="square"]
+n9 [label = "2", shape="circle"]
 
 "n0" -- "n1" -- "n2" -- "n3"
 "n2" -- "n4"
-"n1" -- "n5"
-"n0" -- "n6" -- "n7"
+"n1" -- "n5" -- "n6" -- "n7"
+"n5" -- "n8" -- "n9"
 }
