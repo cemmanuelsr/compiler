@@ -1,6 +1,5 @@
 from parsers.Parser import Parser
 from processes.PrePro import PrePro
-from processes.WriteDotFile import Writer
 
 if __name__ == "__main__":
     import sys
@@ -18,5 +17,4 @@ if __name__ == "__main__":
     code = '\n'.join(lines)
 
     root = Parser.run(code)
-    Writer.write(root, filename)
     root.evaluate()
