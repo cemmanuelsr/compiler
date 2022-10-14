@@ -30,7 +30,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_1', path='../graphs/dot')
+        Writer.write('test_1', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['101'])
@@ -43,7 +43,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_2', path='../graphs/dot')
+        Writer.write('test_2', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['5','4','5','6'])
@@ -56,7 +56,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_3', path='../graphs/dot')
+        Writer.write('test_3', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, [])
@@ -68,7 +68,10 @@ class TestParser(unittest.TestCase):
         lines = code.split('\n')
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
-        self.assertRaises(Exception, Parser.run, code)
+        with self.assertRaises(Exception) as output:
+            Parser.run(code)
+        Writer.write_exception(str(output.exception), Parser.last_node)
+        Writer.write('test_4', path='../graphs/dot')
 
     def test_5(self):
         file = "../assets/codes/test_5.carbon"
@@ -78,7 +81,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_5', path='../graphs/dot')
+        Writer.write('test_5', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1'])
@@ -91,7 +94,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_5', path='../graphs/dot')
+        Writer.write('test_5', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['3'])
@@ -104,7 +107,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_7', path='../graphs/dot')
+        Writer.write('test_7', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['2'])
@@ -118,7 +121,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_8', path='../graphs/dot')
+        Writer.write('test_8', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['7'])
@@ -132,7 +135,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_9', path='../graphs/dot')
+        Writer.write('test_9', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['10'])
@@ -146,7 +149,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_10', path='../graphs/dot')
+        Writer.write('test_10', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['19'])
@@ -158,7 +161,10 @@ class TestParser(unittest.TestCase):
         lines = code.split('\n')
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
-        self.assertRaises(Exception, Parser.run, code)
+        with self.assertRaises(Exception) as output:
+            Parser.run(code)
+        Writer.write_exception(str(output.exception), Parser.last_node)
+        Writer.write('test_11', path='../graphs/dot')
 
     def test_12(self):
         file = "../assets/codes/test_12.carbon"
@@ -167,16 +173,22 @@ class TestParser(unittest.TestCase):
         lines = code.split('\n')
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
-        self.assertRaises(Exception, Parser.run, code)
+        with self.assertRaises(Exception) as output:
+            Parser.run(code)
+        Writer.write_exception(str(output.exception), Parser.last_node)
+        Writer.write('test_12', path='../graphs/dot')
 
     def test_13(self):
-        file = "../assets/codes/test_12.carbon"
+        file = "../assets/codes/test_13.carbon"
         with open(file, "r") as f:
             code = f.read()
         lines = code.split('\n')
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
-        self.assertRaises(Exception, Parser.run, code)
+        with self.assertRaises(Exception) as output:
+            Parser.run(code)
+        Writer.write_exception(str(output.exception), Parser.last_node)
+        Writer.write('test_13', path='../graphs/dot')
 
     def test_14(self):
         file = "../assets/codes/test_14.carbon"
@@ -186,7 +198,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_14', path='../graphs/dot')
+        Writer.write('test_14', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['4'])
@@ -199,7 +211,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_15', path='../graphs/dot')
+        Writer.write('test_15', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1'])
@@ -212,7 +224,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_16', path='../graphs/dot')
+        Writer.write('test_16', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1','2'])
@@ -225,7 +237,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_17', path='../graphs/dot')
+        Writer.write('test_17', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['2'])
@@ -238,7 +250,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_18', path='../graphs/dot')
+        Writer.write('test_18', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1'])
@@ -251,7 +263,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_19', path='../graphs/dot')
+        Writer.write('test_19', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1'])
@@ -264,7 +276,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_20', path='../graphs/dot')
+        Writer.write('test_20', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1'])
@@ -277,7 +289,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_21', path='../graphs/dot')
+        Writer.write('test_21', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1'])
@@ -290,7 +302,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_22', path='../graphs/dot')
+        Writer.write('test_22', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['2'])
@@ -303,7 +315,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_23', path='../graphs/dot')
+        Writer.write('test_23', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1','2','3'])
@@ -316,7 +328,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_24', path='../graphs/dot')
+        Writer.write('test_24', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1','2','3'])
@@ -329,7 +341,7 @@ class TestParser(unittest.TestCase):
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
         root = Parser.run(code)
-        Writer.write(root, 'test_25', path='../graphs/dot')
+        Writer.write('test_25', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1','2','3','4','5','5'])
@@ -341,7 +353,10 @@ class TestParser(unittest.TestCase):
         lines = code.split('\n')
         lines = [PrePro.pre_process(line).strip() for line in lines]
         code = '\n'.join(lines)
-        self.assertRaises(Exception, Parser.run, code)
+        with self.assertRaises(Exception) as output:
+            Parser.run(code)
+        Writer.write_exception(str(output.exception), Parser.last_node)
+        Writer.write('test_26', path='../graphs/dot')
 
 
 if __name__ == "__main__":

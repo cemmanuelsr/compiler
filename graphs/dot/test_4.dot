@@ -1,0 +1,7 @@
+graph g {
+n0 [label = "Block", shape="square"]
+n1 [label = "Block", shape="square"]
+error [label = "Missing open bracket at parse block, received 3", color="white", style="filled", fontcolor="red"]
+
+"n1" -- "error"
+}

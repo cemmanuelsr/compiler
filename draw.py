@@ -19,7 +19,10 @@ if __name__ == "__main__":
     lines = [PrePro.pre_process(line).strip() for line in lines]
     code = '\n'.join(lines)
 
-    root = Parser.run(code)
-    Writer.write(root, filename)
+    try:
+        root = Parser.run(code)
+    except Exception as e:
+        Writer.write_exception(str(e), Parser.last_node)
+    Writer.write(filename)
 
     subprocess.call(["dot","-Tsvg",f"graphs/dot/{filename}.dot","-o",f"assets/img/{filename}.svg"])

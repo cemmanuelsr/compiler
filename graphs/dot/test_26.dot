@@ -5,10 +5,12 @@ n2 [label = "=", shape="diamond"]
 n3 [label = "Read", shape="square"]
 n4 [label = "Print", shape="square"]
 n5 [label = "x", shape="circle"]
+error [label = "Invalid syntax, instead of EOF ends with }", color="white", style="filled", fontcolor="red"]
 
 "n2" -- "n1"
 "n2" -- "n3"
 "n0" -- "n2"
 "n4" -- "n5"
 "n0" -- "n4"
+"n0" -- "error"
 }

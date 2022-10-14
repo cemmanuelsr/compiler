@@ -3,8 +3,10 @@ n0 [label = "Block", shape="square"]
 n1 [label = "Block", shape="square"]
 n2 [label = "Print", shape="square"]
 n3 [label = "1", shape="circle"]
+error [label = "Missing close bracket at parse block", color="white", style="filled", fontcolor="red"]
 
 "n2" -- "n3"
 "n1" -- "n2"
 "n0" -- "n1"
+"n0" -- "error"
 }

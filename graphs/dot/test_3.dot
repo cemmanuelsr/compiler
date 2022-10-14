@@ -3,5 +3,6 @@ n0 [label = "Block", shape="square"]
 n1 [label = "Block", shape="square"]
 n2 [label = "Block", shape="square"]
 
-"n0" -- "n1" -- "n2"
+"n1" -- "n2"
+"n0" -- "n1"
 }
