@@ -12,7 +12,7 @@ n9 [label = "Block", shape="square"]
 n10 [label = "Print", shape="square"]
 n11 [label = "1", shape="circle"]
 n12 [label = "Block", shape="square"]
-error [label = "Missing open bracket at parse block, received else", color="white", style="filled", fontcolor="red"]
+error [label = "Missing open bracket at parse block, received else", color="red", style="filled", shape="box", fontcolor="white"]
 
 "n3" -- "n2"
 "n3" -- "n4"

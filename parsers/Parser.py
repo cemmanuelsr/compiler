@@ -52,22 +52,19 @@ class Parser:
             node = UnaryOpNode('+')
             Parser.last_node = node
             Parser.tokenizer.select_next()
-            result = Parser.parse_factor()
-            node.children.append(result)
+            node.children.append(Parser.parse_factor())
             Parser.last_node = node
         elif isinstance(Parser.tokenizer.next, MinusToken):
             node = UnaryOpNode('-')
             Parser.last_node = node
             Parser.tokenizer.select_next()
-            result = Parser.parse_factor()
-            node.children.append(result)
+            node.children.append(Parser.parse_factor())
             Parser.last_node = node
         elif isinstance(Parser.tokenizer.next, NotToken):
             node = UnaryOpNode('!')
             Parser.last_node = node
             Parser.tokenizer.select_next()
-            result = Parser.parse_factor()
-            node.children.append(result)
+            node.children.append(Parser.parse_factor())
             Parser.last_node = node
         elif isinstance(Parser.tokenizer.next, ReadToken):
             node = ReadNode()
@@ -105,8 +102,7 @@ class Parser:
                         _node = BinaryOpNode('*')
                         _node.children.append(node)
                         Parser.last_node = _node
-                        result = Parser.parse_factor()
-                        _node.children.append(result)
+                        _node.children.append(Parser.parse_factor())
                         node = _node
                         Parser.last_node = node
                     else:
@@ -117,8 +113,7 @@ class Parser:
                         _node = BinaryOpNode('/')
                         _node.children.append(node)
                         Parser.last_node = _node
-                        result = Parser.parse_factor()
-                        _node.children.append(result)
+                        _node.children.append(Parser.parse_factor())
                         node = _node
                         Parser.last_node = node
                     else:
@@ -129,8 +124,7 @@ class Parser:
                         _node = BinaryOpNode('&&')
                         _node.children.append(node)
                         Parser.last_node = _node
-                        result = Parser.parse_factor()
-                        _node.children.append(result)
+                        _node.children.append(Parser.parse_factor())
                         node = _node
                         Parser.last_node = node
                     else:
@@ -151,8 +145,7 @@ class Parser:
                         _node = BinaryOpNode('+')
                         _node.children.append(node)
                         Parser.last_node = _node
-                        result = Parser.parse_term()
-                        _node.children.append(result)
+                        _node.children.append(Parser.parse_term())
                         node = _node
                         Parser.last_node = node
                     else:
@@ -163,8 +156,7 @@ class Parser:
                         _node = BinaryOpNode('-')
                         _node.children.append(node)
                         Parser.last_node = _node
-                        result = Parser.parse_term()
-                        _node.children.append(result)
+                        _node.children.append(Parser.parse_term())
                         node = _node
                         Parser.last_node = node
                     else:
@@ -175,8 +167,7 @@ class Parser:
                         _node = BinaryOpNode('||')
                         _node.children.append(node)
                         Parser.last_node = _node
-                        result = Parser.parse_term()
-                        _node.children.append(result)
+                        _node.children.append(Parser.parse_term())
                         node = _node
                         Parser.last_node = node
                     else:
@@ -198,8 +189,7 @@ class Parser:
                         _node = BinaryOpNode('==')
                         _node.children.append(node)
                         Parser.last_node = _node
-                        result = Parser.parse_expression()
-                        _node.children.append(result)
+                        _node.children.append(Parser.parse_expression())
                         node = _node
                         Parser.last_node = node
                     else:
@@ -210,8 +200,7 @@ class Parser:
                         _node = BinaryOpNode('>')
                         _node.children.append(node)
                         Parser.last_node = _node
-                        result = Parser.parse_expression()
-                        _node.children.append(result)
+                        _node.children.append(Parser.parse_expression())
                         node = _node
                         Parser.last_node = node
                     else:
@@ -222,8 +211,7 @@ class Parser:
                         _node = BinaryOpNode('<')
                         _node.children.append(node)
                         Parser.last_node = _node
-                        result = Parser.parse_expression()
-                        _node.children.append(result)
+                        _node.children.append(Parser.parse_expression())
                         node = _node
                         Parser.last_node = node
                     else:
@@ -250,8 +238,7 @@ class Parser:
                 node = AssignmentNode()
                 node.children.append(left_child)
                 Parser.last_node = node
-                right_child = Parser.parse_rel_expression()
-                node.children.append(right_child)
+                node.children.append(Parser.parse_rel_expression())
                 Parser.last_node = node
             else:
                 raise Exception(f"Missing assignment token after identifier, received {Parser.tokenizer.next.value}")
@@ -294,8 +281,7 @@ class Parser:
                 raise Exception(f"Missing open parenthesis after while token, instead receive {Parser.tokenizer.next.value}")
 
             Parser.tokenizer.select_next()
-            stmt = Parser.parse_statement()
-            node.children.append(stmt)
+            node.children.append(Parser.parse_statement())
             Parser.last_node = node
 
         elif isinstance(Parser.tokenizer.next, IfToken):
@@ -314,8 +300,7 @@ class Parser:
                 raise Exception(f"Missing open parenthesis after if token, instead receive {Parser.tokenizer.next.value}")
 
             Parser.tokenizer.select_next()
-            stmt = Parser.parse_statement()
-            node.children.append(stmt)
+            node.children.append(Parser.parse_statement())
             Parser.last_node = node
             if isinstance(Parser.tokenizer.see_next()[0], ElseToken):
                 Parser.tokenizer.select_next()
@@ -323,8 +308,7 @@ class Parser:
                 else_node = ConditionNode('Else')
                 Parser.last_node = else_node
                 Parser.tokenizer.select_next()
-                stmt = Parser.parse_statement()
-                else_node.children.append(stmt)
+                else_node.children.append(Parser.parse_statement())
                 node.children.append(else_node)
                 Parser.last_node = node
 
@@ -346,8 +330,7 @@ class Parser:
         if isinstance(Parser.tokenizer.next, OpenBracketToken):
             Parser.tokenizer.select_next()
             while not isinstance(Parser.tokenizer.next, CloseBracketToken):
-                result = Parser.parse_statement()
-                node.children.append(result)
+                node.children.append(Parser.parse_statement())
                 Parser.last_node = node
                 Parser.tokenizer.select_next()
                 if isinstance(Parser.tokenizer.next, EOFToken):

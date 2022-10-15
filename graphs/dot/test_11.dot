@@ -5,7 +5,7 @@ n2 [label = "1", shape="circle"]
 n3 [label = "==", shape="diamond"]
 n4 [label = "1", shape="circle"]
 n5 [label = "Block", shape="square"]
-error [label = "Missing open bracket at parse block, received else", color="white", style="filled", fontcolor="red"]
+error [label = "Missing open bracket at parse block, received else", color="red", style="filled", shape="box", fontcolor="white"]
 
 "n3" -- "n2"
 "n3" -- "n4"

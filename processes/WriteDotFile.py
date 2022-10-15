@@ -26,7 +26,7 @@ class Writer:
     @staticmethod
     def write_exception(error, node):
         # Writer.dof_file_header = Writer.dof_file_header[:-2] + ', color="red", style="filled", fontcolor="white"]\n'
-        Writer.dof_file_header += f'error [label = "{error}", color="white", style="filled", fontcolor="red"]\n'
+        Writer.dof_file_header += f'error [label = "{error}", color="red", style="filled", shape="box", fontcolor="white"]\n'
         Writer.dot_file_body += f'"{Writer.node_name_map[node]}" -- "error"\n'
 
     @staticmethod
