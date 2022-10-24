@@ -29,6 +29,6 @@ DIGIT = ( 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 ) ;
 
 O script main também gera um arquivo em linguagem DOT que pode ser usado para visualizar a AST do código.
 
-Você pode desenhá-lo usando o software que desejar ou, caso possua graphviz instalado, executar o script `draw.py` e desenhar a AST como essa abaixo:
+Você pode desenhá-lo usando o software que desejar ou, caso possua graphviz instalado, executar o script `draw.py` e desenhar a AST como essa abaixo que calcula os 102 primeiros termos da sequência de Fibonacci:
 
-![exemplo AST](assets/img/test_2.svg)
+![exemplo AST](assets/img/fibonacci.svg)
