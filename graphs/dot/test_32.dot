@@ -4,7 +4,7 @@ n1 [label = "VarDec", shape="square"]
 n2 [label = "x", shape="circle"]
 n3 [label = "VarDec", shape="square"]
 n4 [label = "x", shape="circle"]
-error [label = "x already created on actual scope", color="red", style="filled", shape="box", fontcolor="white"]
+error [label = "x already created on currently scope", color="red", style="filled", shape="box", fontcolor="white"]
 
 "n1" -- "n2"
 "n0" -- "n1"

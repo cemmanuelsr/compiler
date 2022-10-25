@@ -17,5 +17,5 @@ class SymbolTable:
 
     def create(self, k, v):
         if k in self.table.keys():
-            raise Exception(f'{k} already created on actual scope')
+            raise Exception(f'{k} already created on currently scope')
         self.table[k] = v
