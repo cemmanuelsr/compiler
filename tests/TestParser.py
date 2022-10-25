@@ -6,6 +6,7 @@ import sys
 from processes.PrePro import PrePro
 from processes.WriteDotFile import Writer
 from parsers.Parser import Parser
+from symbol_tables import symbol_table
 
 
 class CapturingStdOut(list):
@@ -34,6 +35,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['101'])
+        symbol_table.table = {}
 
     def test_2(self):
         file = "../assets/codes/test_2.carbon"
@@ -47,6 +49,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['5', '4', '5', '6'])
+        symbol_table.table = {}
 
     def test_3(self):
         file = "../assets/codes/test_3.carbon"
@@ -60,6 +63,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, [])
+        symbol_table.table = {}
 
     def test_4(self):
         file = "../assets/codes/test_4.carbon"
@@ -72,6 +76,7 @@ class TestParser(unittest.TestCase):
             Parser.run(code)
         Writer.write_exception(str(output.exception), Parser.last_node)
         Writer.write('test_4', path='../graphs/dot')
+        symbol_table.table = {}
 
     def test_5(self):
         file = "../assets/codes/test_5.carbon"
@@ -85,6 +90,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1'])
+        symbol_table.table = {}
 
     def test_6(self):
         file = "../assets/codes/test_6.carbon"
@@ -98,6 +104,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['3'])
+        symbol_table.table = {}
 
     def test_7(self):
         file = "../assets/codes/test_7.carbon"
@@ -111,6 +118,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['2'])
+        symbol_table.table = {}
 
     @mock.patch('builtins.input', side_effect=['7'])
     def test_8(self, mock_input):
@@ -125,6 +133,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['7'])
+        symbol_table.table = {}
 
     @mock.patch('builtins.input', side_effect=['2', '8'])
     def test_9(self, mock_input):
@@ -139,6 +148,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['10'])
+        symbol_table.table = {}
 
     @mock.patch('builtins.input', side_effect=['19'])
     def test_10(self, mock_input):
@@ -153,6 +163,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['19'])
+        symbol_table.table = {}
 
     def test_11(self):
         file = "../assets/codes/test_11.carbon"
@@ -165,6 +176,7 @@ class TestParser(unittest.TestCase):
             Parser.run(code)
         Writer.write_exception(str(output.exception), Parser.last_node)
         Writer.write('test_11', path='../graphs/dot')
+        symbol_table.table = {}
 
     def test_12(self):
         file = "../assets/codes/test_12.carbon"
@@ -177,6 +189,7 @@ class TestParser(unittest.TestCase):
             Parser.run(code)
         Writer.write_exception(str(output.exception), Parser.last_node)
         Writer.write('test_12', path='../graphs/dot')
+        symbol_table.table = {}
 
     def test_13(self):
         file = "../assets/codes/test_13.carbon"
@@ -189,6 +202,7 @@ class TestParser(unittest.TestCase):
             Parser.run(code)
         Writer.write_exception(str(output.exception), Parser.last_node)
         Writer.write('test_13', path='../graphs/dot')
+        symbol_table.table = {}
 
     def test_14(self):
         file = "../assets/codes/test_14.carbon"
@@ -202,6 +216,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['4'])
+        symbol_table.table = {}
 
     def test_15(self):
         file = "../assets/codes/test_15.carbon"
@@ -215,6 +230,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1'])
+        symbol_table.table = {}
 
     def test_16(self):
         file = "../assets/codes/test_16.carbon"
@@ -228,6 +244,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1', '2'])
+        symbol_table.table = {}
 
     def test_17(self):
         file = "../assets/codes/test_17.carbon"
@@ -241,6 +258,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['2'])
+        symbol_table.table = {}
 
     def test_18(self):
         file = "../assets/codes/test_18.carbon"
@@ -254,6 +272,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1'])
+        symbol_table.table = {}
 
     def test_19(self):
         file = "../assets/codes/test_19.carbon"
@@ -267,6 +286,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1'])
+        symbol_table.table = {}
 
     def test_20(self):
         file = "../assets/codes/test_20.carbon"
@@ -280,6 +300,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1'])
+        symbol_table.table = {}
 
     def test_21(self):
         file = "../assets/codes/test_21.carbon"
@@ -293,6 +314,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1'])
+        symbol_table.table = {}
 
     def test_22(self):
         file = "../assets/codes/test_22.carbon"
@@ -306,6 +328,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['2'])
+        symbol_table.table = {}
 
     def test_23(self):
         file = "../assets/codes/test_23.carbon"
@@ -319,6 +342,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1', '2', '3'])
+        symbol_table.table = {}
 
     def test_24(self):
         file = "../assets/codes/test_24.carbon"
@@ -332,6 +356,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1', '2', '3'])
+        symbol_table.table = {}
 
     def test_25(self):
         file = "../assets/codes/test_25.carbon"
@@ -345,6 +370,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1', '2', '3', '4', '5', '5'])
+        symbol_table.table = {}
 
     def test_26(self):
         file = "../assets/codes/test_26.carbon"
@@ -357,6 +383,7 @@ class TestParser(unittest.TestCase):
             Parser.run(code)
         Writer.write_exception(str(output.exception), Parser.last_node)
         Writer.write('test_26', path='../graphs/dot')
+        symbol_table.table = {}
 
     @mock.patch('builtins.input', side_effect=['3', '0'])
     def test_27(self, mock_input):
@@ -371,6 +398,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['3', '3', '2', '1', '0'])
+        symbol_table.table = {}
 
     def test_28(self):
         file = "../assets/codes/test_28.carbon"
@@ -384,6 +412,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['1'])
+        symbol_table.table = {}
 
     def test_29(self):
         file = "../assets/codes/test_29.carbon"
@@ -397,6 +426,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['3', '1', '2', '2', '0', '0', '1'])
+        symbol_table.table = {}
 
     def test_30(self):
         file = "../assets/codes/test_30.carbon"
@@ -410,6 +440,7 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['abcdef', 'abc1', '1abc', '12', 'abc1', '1', '1', '0'])
+        symbol_table.table = {}
 
     def test_31(self):
         file = "../assets/codes/test_31.carbon"
@@ -423,6 +454,21 @@ class TestParser(unittest.TestCase):
         with CapturingStdOut() as output:
             root.evaluate()
         self.assertEqual(output, ['0'])
+        symbol_table.table = {}
+
+    def test_32(self):
+        file = "../assets/codes/test_32.carbon"
+        with open(file, "r") as f:
+            code = f.read()
+        lines = code.split('\n')
+        lines = [PrePro.pre_process(line).strip() for line in lines]
+        code = '\n'.join(lines)
+        root = Parser.run(code)
+        with self.assertRaises(Exception) as output:
+            root.evaluate()
+        Writer.write_exception(str(output.exception), Parser.last_node)
+        Writer.write('test_32', path='../graphs/dot')
+        symbol_table.table = {}
 
 
 if __name__ == "__main__":
