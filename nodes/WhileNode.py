@@ -6,5 +6,5 @@ class WhileNode(Node):
         super().__init__('While')
 
     def evaluate(self):
-        while self.children[0].evaluate():
+        while self.children[0].evaluate()():
             self.children[1].evaluate()

@@ -5,7 +5,7 @@ class SymbolTable:
     def get(self, k):
         if k not in self.table.keys():
             raise Exception(f'{k} variable never created')
-        return self.table[k]()
+        return self.table[k]
 
     def set(self, k, v):
         if k not in self.table.keys():

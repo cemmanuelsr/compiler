@@ -2,7 +2,7 @@ from .Token import Token
 
 
 class IdentifierToken(Token):
-    def __init__(self, value) -> None:
+    def __init__(self, value=None) -> None:
         super().__init__(value)
 
     @property

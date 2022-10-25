@@ -81,7 +81,7 @@ class Tokenizer:
                     c = self.source[i]
                     name += c
             name = name[:-1]
-            position = i
+            position = i+1
 
             next = StringToken(name)
         elif c == '+':

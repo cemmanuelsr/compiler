@@ -4,7 +4,7 @@ from dataclasses.Type import Type
 
 
 class VarDeclarationNode(Node):
-    def __init__(self, cast_function):
+    def __init__(self, cast_function=None):
         super().__init__('VarDec')
         self.cast_function = cast_function
 

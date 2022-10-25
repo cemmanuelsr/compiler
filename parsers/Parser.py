@@ -37,7 +37,7 @@ from nodes.BlockNode import BlockNode
 
 def is_a_possible_token(token):
     return isinstance(token,
-                      (NumericToken, PlusToken, MinusToken, OpenParenthesisToken, IdentifierToken, NotToken, ReadToken))
+                      (NumericToken, PlusToken, MinusToken, OpenParenthesisToken, IdentifierToken, NotToken, ReadToken, StringToken, DotToken))
 
 
 class Parser:
@@ -263,14 +263,26 @@ class Parser:
             Parser.tokenizer.select_next()
 
             if isinstance(Parser.tokenizer.next, IdentifierToken):
-                while not isinstance(Parser.tokenizer.next, CommaToken):
+                while isinstance(Parser.tokenizer.next, (CommaToken, IdentifierToken)):
+                    if isinstance(Parser.tokenizer.next, CommaToken):
+                        Parser.tokenizer.select_next()
+                        next_expected_token = IdentifierToken
+                    if isinstance(Parser.tokenizer.next, IdentifierToken):
+                        next_expected_token = (CommaToken, ColonToken)
                     _node = IdentifierNode(Parser.tokenizer.next.value)
                     node.children.append(_node)
                     Parser.tokenizer.select_next()
+                    if not isinstance(Parser.tokenizer.next, next_expected_token):
+                        raise Exception(
+                            f"Expected {next_expected_token().type} token, instead received {Parser.tokenizer.next.value}")
 
                 if isinstance(Parser.tokenizer.next, ColonToken):
                     Parser.tokenizer.select_next()
                     if isinstance(Parser.tokenizer.next, TypeToken):
+                        if Parser.tokenizer.next.value == 'String':
+                            node.cast_function = str
+                        elif Parser.tokenizer.next.value == 'i32':
+                            node.cast_function = int
                         Parser.tokenizer.select_next()
                     else:
                         raise Exception(

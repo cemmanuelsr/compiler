@@ -1,76 +1,90 @@
 graph g {
 n0 [label = "Block", shape="square"]
-n1 [label = "n1", shape="circle"]
-n2 [label = "=", shape="diamond"]
-n3 [label = "1", shape="circle"]
-n4 [label = "n2", shape="circle"]
+n1 [label = "VarDec", shape="square"]
+n2 [label = "n1", shape="circle"]
+n3 [label = "n2", shape="circle"]
+n4 [label = "n1", shape="circle"]
 n5 [label = "=", shape="diamond"]
 n6 [label = "1", shape="circle"]
-n7 [label = "Print", shape="square"]
-n8 [label = "n1", shape="circle"]
-n9 [label = "Print", shape="square"]
-n10 [label = "n2", shape="circle"]
-n11 [label = "i", shape="circle"]
-n12 [label = "=", shape="diamond"]
-n13 [label = "0", shape="circle"]
-n14 [label = "While", shape="square"]
+n7 [label = "n2", shape="circle"]
+n8 [label = "=", shape="diamond"]
+n9 [label = "1", shape="circle"]
+n10 [label = "Print", shape="square"]
+n11 [label = "n1", shape="circle"]
+n12 [label = "Print", shape="square"]
+n13 [label = "n2", shape="circle"]
+n14 [label = "VarDec", shape="square"]
 n15 [label = "i", shape="circle"]
-n16 [label = "<", shape="diamond"]
-n17 [label = "100", shape="circle"]
-n18 [label = "Block", shape="square"]
-n19 [label = "n3", shape="circle"]
-n20 [label = "=", shape="diamond"]
-n21 [label = "n2", shape="circle"]
-n22 [label = "+", shape="diamond"]
-n23 [label = "n1", shape="circle"]
-n24 [label = "Print", shape="square"]
-n25 [label = "n3", shape="circle"]
-n26 [label = "n1", shape="circle"]
+n16 [label = "i", shape="circle"]
+n17 [label = "=", shape="diamond"]
+n18 [label = "0", shape="circle"]
+n19 [label = "VarDec", shape="square"]
+n20 [label = "n3", shape="circle"]
+n21 [label = "While", shape="square"]
+n22 [label = "i", shape="circle"]
+n23 [label = "<", shape="diamond"]
+n24 [label = "100", shape="circle"]
+n25 [label = "Block", shape="square"]
+n26 [label = "n3", shape="circle"]
 n27 [label = "=", shape="diamond"]
 n28 [label = "n2", shape="circle"]
-n29 [label = "n2", shape="circle"]
-n30 [label = "=", shape="diamond"]
-n31 [label = "n3", shape="circle"]
-n32 [label = "i", shape="circle"]
-n33 [label = "=", shape="diamond"]
-n34 [label = "i", shape="circle"]
-n35 [label = "+", shape="diamond"]
-n36 [label = "1", shape="circle"]
+n29 [label = "+", shape="diamond"]
+n30 [label = "n1", shape="circle"]
+n31 [label = "Print", shape="square"]
+n32 [label = "n3", shape="circle"]
+n33 [label = "n1", shape="circle"]
+n34 [label = "=", shape="diamond"]
+n35 [label = "n2", shape="circle"]
+n36 [label = "n2", shape="circle"]
+n37 [label = "=", shape="diamond"]
+n38 [label = "n3", shape="circle"]
+n39 [label = "i", shape="circle"]
+n40 [label = "=", shape="diamond"]
+n41 [label = "i", shape="circle"]
+n42 [label = "+", shape="diamond"]
+n43 [label = "1", shape="circle"]
 
-"n2" -- "n1"
-"n2" -- "n3"
-"n0" -- "n2"
+"n1" -- "n2"
+"n1" -- "n3"
+"n0" -- "n1"
 "n5" -- "n4"
 "n5" -- "n6"
 "n0" -- "n5"
-"n7" -- "n8"
-"n0" -- "n7"
-"n9" -- "n10"
-"n0" -- "n9"
-"n12" -- "n11"
+"n8" -- "n7"
+"n8" -- "n9"
+"n0" -- "n8"
+"n10" -- "n11"
+"n0" -- "n10"
 "n12" -- "n13"
 "n0" -- "n12"
-"n16" -- "n15"
-"n16" -- "n17"
-"n14" -- "n16"
-"n20" -- "n19"
-"n22" -- "n21"
-"n22" -- "n23"
-"n20" -- "n22"
-"n18" -- "n20"
-"n24" -- "n25"
-"n18" -- "n24"
-"n27" -- "n26"
-"n27" -- "n28"
-"n18" -- "n27"
-"n30" -- "n29"
-"n30" -- "n31"
-"n18" -- "n30"
-"n33" -- "n32"
-"n35" -- "n34"
-"n35" -- "n36"
-"n33" -- "n35"
-"n18" -- "n33"
-"n14" -- "n18"
+"n14" -- "n15"
 "n0" -- "n14"
+"n17" -- "n16"
+"n17" -- "n18"
+"n0" -- "n17"
+"n19" -- "n20"
+"n0" -- "n19"
+"n23" -- "n22"
+"n23" -- "n24"
+"n21" -- "n23"
+"n27" -- "n26"
+"n29" -- "n28"
+"n29" -- "n30"
+"n27" -- "n29"
+"n25" -- "n27"
+"n31" -- "n32"
+"n25" -- "n31"
+"n34" -- "n33"
+"n34" -- "n35"
+"n25" -- "n34"
+"n37" -- "n36"
+"n37" -- "n38"
+"n25" -- "n37"
+"n40" -- "n39"
+"n42" -- "n41"
+"n42" -- "n43"
+"n40" -- "n42"
+"n25" -- "n40"
+"n21" -- "n25"
+"n0" -- "n21"
 }
