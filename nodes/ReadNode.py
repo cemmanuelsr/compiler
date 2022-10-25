@@ -1,4 +1,5 @@
 from .Node import Node
+from dataclasses.Type import Type
 
 
 class ReadNode(Node):
@@ -6,4 +7,4 @@ class ReadNode(Node):
         super().__init__('Read')
 
     def evaluate(self):
-        return int(input(''))
+        return Type(int(input('')), int)

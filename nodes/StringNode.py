@@ -2,9 +2,9 @@ from .Node import Node
 from dataclasses.Type import Type
 
 
-class IntegerNode(Node):
-    def __init__(self, value: int):
+class StringNode(Node):
+    def __init__(self, value: str):
         super().__init__(value)
 
     def evaluate(self):
-        return Type(self.value, int)
+        return Type(self.value, str)

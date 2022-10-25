@@ -1,5 +1,5 @@
-box_shaped = ['Block', 'While', 'If', 'Else', 'Read', 'Print']
-diamond_shaped = ['=', '+', '-', '*', '/', '||', '&&', '==', '<', '>']
+box_shaped = ['Block', 'While', 'If', 'Else', 'Read', 'Print', 'VarDec']
+diamond_shaped = ['=', '+', '-', '*', '/', '||', '&&', '==', '<', '>', '.', '!']
 
 
 class Writer:
