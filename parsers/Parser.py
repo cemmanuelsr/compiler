@@ -199,7 +199,7 @@ class Parser:
 
         if is_a_possible_token(Parser.tokenizer.next):
             node = Parser.parse_expression()
-            while isinstance(Parser.tokenizer.next, (EqualToken, GreaterThenToken, LessThenToken)):
+            while isinstance(Parser.tokenizer.next, (EqualToken, GreaterThenToken, LessThenToken, DotToken)):
                 if isinstance(Parser.tokenizer.next, EqualToken):
                     Parser.tokenizer.select_next()
                     if is_a_possible_token(Parser.tokenizer.next):

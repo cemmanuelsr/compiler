@@ -3,6 +3,8 @@ from decorators.CompareType import compare_with_int
 
 class Type:
     def __init__(self, value, cast_function):
+        if isinstance(value, bool):
+            value = int(value)
         self.value = value
         self.cast_function = cast_function
 
@@ -33,15 +35,12 @@ class Type:
     def __or__(self, other):
         return Type(self() or other(), self.cast_function)
 
-    @compare_with_int('==')
     def __eq__(self, other):
         return Type(self() == other(), self.cast_function)
 
-    @compare_with_int('<')
     def __lt__(self, other):
         return Type(self() < other(), self.cast_function)
 
-    @compare_with_int('>')
     def __gt__(self, other):
         return Type(self() > other(), self.cast_function)
 

@@ -46,7 +46,7 @@ class TestParser(unittest.TestCase):
         Writer.write('test_2', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
-        self.assertEqual(output, ['5','4','5','6'])
+        self.assertEqual(output, ['5', '4', '5', '6'])
 
     def test_3(self):
         file = "../assets/codes/test_3.carbon"
@@ -227,7 +227,7 @@ class TestParser(unittest.TestCase):
         Writer.write('test_16', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
-        self.assertEqual(output, ['1','2'])
+        self.assertEqual(output, ['1', '2'])
 
     def test_17(self):
         file = "../assets/codes/test_17.carbon"
@@ -318,7 +318,7 @@ class TestParser(unittest.TestCase):
         Writer.write('test_23', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
-        self.assertEqual(output, ['1','2','3'])
+        self.assertEqual(output, ['1', '2', '3'])
 
     def test_24(self):
         file = "../assets/codes/test_24.carbon"
@@ -331,7 +331,7 @@ class TestParser(unittest.TestCase):
         Writer.write('test_24', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
-        self.assertEqual(output, ['1','2','3'])
+        self.assertEqual(output, ['1', '2', '3'])
 
     def test_25(self):
         file = "../assets/codes/test_25.carbon"
@@ -344,7 +344,7 @@ class TestParser(unittest.TestCase):
         Writer.write('test_25', path='../graphs/dot')
         with CapturingStdOut() as output:
             root.evaluate()
-        self.assertEqual(output, ['1','2','3','4','5','5'])
+        self.assertEqual(output, ['1', '2', '3', '4', '5', '5'])
 
     def test_26(self):
         file = "../assets/codes/test_26.carbon"
@@ -357,6 +357,72 @@ class TestParser(unittest.TestCase):
             Parser.run(code)
         Writer.write_exception(str(output.exception), Parser.last_node)
         Writer.write('test_26', path='../graphs/dot')
+
+    @mock.patch('builtins.input', side_effect=['3', '0'])
+    def test_27(self, mock_input):
+        file = "../assets/codes/test_27.carbon"
+        with open(file, "r") as f:
+            code = f.read()
+        lines = code.split('\n')
+        lines = [PrePro.pre_process(line).strip() for line in lines]
+        code = '\n'.join(lines)
+        root = Parser.run(code)
+        Writer.write('test_27', path='../graphs/dot')
+        with CapturingStdOut() as output:
+            root.evaluate()
+        self.assertEqual(output, ['3', '3', '2', '1', '0'])
+
+    def test_28(self):
+        file = "../assets/codes/test_28.carbon"
+        with open(file, "r") as f:
+            code = f.read()
+        lines = code.split('\n')
+        lines = [PrePro.pre_process(line).strip() for line in lines]
+        code = '\n'.join(lines)
+        root = Parser.run(code)
+        Writer.write('test_28', path='../graphs/dot')
+        with CapturingStdOut() as output:
+            root.evaluate()
+        self.assertEqual(output, ['1'])
+
+    def test_29(self):
+        file = "../assets/codes/test_29.carbon"
+        with open(file, "r") as f:
+            code = f.read()
+        lines = code.split('\n')
+        lines = [PrePro.pre_process(line).strip() for line in lines]
+        code = '\n'.join(lines)
+        root = Parser.run(code)
+        Writer.write('test_29', path='../graphs/dot')
+        with CapturingStdOut() as output:
+            root.evaluate()
+        self.assertEqual(output, ['3', '1', '2', '2', '0', '0', '1'])
+
+    def test_30(self):
+        file = "../assets/codes/test_30.carbon"
+        with open(file, "r") as f:
+            code = f.read()
+        lines = code.split('\n')
+        lines = [PrePro.pre_process(line).strip() for line in lines]
+        code = '\n'.join(lines)
+        root = Parser.run(code)
+        Writer.write('test_30', path='../graphs/dot')
+        with CapturingStdOut() as output:
+            root.evaluate()
+        self.assertEqual(output, ['abcdef', 'abc1', '1abc', '12', 'abc1', '1', '1', '0'])
+
+    def test_31(self):
+        file = "../assets/codes/test_31.carbon"
+        with open(file, "r") as f:
+            code = f.read()
+        lines = code.split('\n')
+        lines = [PrePro.pre_process(line).strip() for line in lines]
+        code = '\n'.join(lines)
+        root = Parser.run(code)
+        Writer.write('test_31', path='../graphs/dot')
+        with CapturingStdOut() as output:
+            root.evaluate()
+        self.assertEqual(output, ['0'])
 
 
 if __name__ == "__main__":
