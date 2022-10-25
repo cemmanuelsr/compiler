@@ -1,32 +1,38 @@
 graph g {
 n0 [label = "Block", shape="square"]
-n1 [label = "x", shape="circle"]
-n2 [label = "=", shape="diamond"]
-n3 [label = "100", shape="circle"]
-n4 [label = "y", shape="circle"]
+n1 [label = "VarDec", shape="square"]
+n2 [label = "x", shape="circle"]
+n3 [label = "y", shape="circle"]
+n4 [label = "x", shape="circle"]
 n5 [label = "=", shape="diamond"]
-n6 [label = "x", shape="circle"]
-n7 [label = "+", shape="diamond"]
-n8 [label = "100", shape="circle"]
-n9 [label = "-", shape="diamond"]
-n10 [label = "100", shape="circle"]
-n11 [label = "+", shape="diamond"]
-n12 [label = "1", shape="circle"]
-n13 [label = "Print", shape="square"]
-n14 [label = "y", shape="circle"]
+n6 [label = "100", shape="circle"]
+n7 [label = "y", shape="circle"]
+n8 [label = "=", shape="diamond"]
+n9 [label = "x", shape="circle"]
+n10 [label = "+", shape="diamond"]
+n11 [label = "100", shape="circle"]
+n12 [label = "-", shape="diamond"]
+n13 [label = "100", shape="circle"]
+n14 [label = "+", shape="diamond"]
+n15 [label = "1", shape="circle"]
+n16 [label = "Print", shape="square"]
+n17 [label = "y", shape="circle"]
 
-"n2" -- "n1"
-"n2" -- "n3"
-"n0" -- "n2"
+"n1" -- "n2"
+"n1" -- "n3"
+"n0" -- "n1"
 "n5" -- "n4"
-"n7" -- "n6"
-"n7" -- "n8"
-"n9" -- "n7"
-"n9" -- "n10"
-"n11" -- "n9"
-"n11" -- "n12"
-"n5" -- "n11"
+"n5" -- "n6"
 "n0" -- "n5"
-"n13" -- "n14"
-"n0" -- "n13"
+"n8" -- "n7"
+"n10" -- "n9"
+"n10" -- "n11"
+"n12" -- "n10"
+"n12" -- "n13"
+"n14" -- "n12"
+"n14" -- "n15"
+"n8" -- "n14"
+"n0" -- "n8"
+"n16" -- "n17"
+"n0" -- "n16"
 }

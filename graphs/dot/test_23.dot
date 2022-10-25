@@ -1,34 +1,38 @@
 graph g {
 n0 [label = "Block", shape="square"]
-n1 [label = "a", shape="circle"]
-n2 [label = "=", shape="diamond"]
-n3 [label = "0", shape="circle"]
-n4 [label = "While", shape="square"]
-n5 [label = "a", shape="circle"]
-n6 [label = "<", shape="diamond"]
-n7 [label = "3", shape="circle"]
-n8 [label = "Block", shape="square"]
-n9 [label = "a", shape="circle"]
-n10 [label = "=", shape="diamond"]
+n1 [label = "VarDec", shape="square"]
+n2 [label = "a", shape="circle"]
+n3 [label = "a", shape="circle"]
+n4 [label = "=", shape="diamond"]
+n5 [label = "0", shape="circle"]
+n6 [label = "While", shape="square"]
+n7 [label = "a", shape="circle"]
+n8 [label = "<", shape="diamond"]
+n9 [label = "3", shape="circle"]
+n10 [label = "Block", shape="square"]
 n11 [label = "a", shape="circle"]
-n12 [label = "+", shape="diamond"]
-n13 [label = "1", shape="circle"]
-n14 [label = "Print", shape="square"]
-n15 [label = "a", shape="circle"]
+n12 [label = "=", shape="diamond"]
+n13 [label = "a", shape="circle"]
+n14 [label = "+", shape="diamond"]
+n15 [label = "1", shape="circle"]
+n16 [label = "Print", shape="square"]
+n17 [label = "a", shape="circle"]
 
-"n2" -- "n1"
-"n2" -- "n3"
-"n0" -- "n2"
-"n6" -- "n5"
-"n6" -- "n7"
-"n4" -- "n6"
-"n10" -- "n9"
-"n12" -- "n11"
-"n12" -- "n13"
-"n10" -- "n12"
-"n8" -- "n10"
-"n14" -- "n15"
-"n8" -- "n14"
-"n4" -- "n8"
+"n1" -- "n2"
+"n0" -- "n1"
+"n4" -- "n3"
+"n4" -- "n5"
 "n0" -- "n4"
+"n8" -- "n7"
+"n8" -- "n9"
+"n6" -- "n8"
+"n12" -- "n11"
+"n14" -- "n13"
+"n14" -- "n15"
+"n12" -- "n14"
+"n10" -- "n12"
+"n16" -- "n17"
+"n10" -- "n16"
+"n6" -- "n10"
+"n0" -- "n6"
 }

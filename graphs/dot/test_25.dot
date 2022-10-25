@@ -1,68 +1,74 @@
 graph g {
 n0 [label = "Block", shape="square"]
-n1 [label = "a", shape="circle"]
-n2 [label = "=", shape="diamond"]
-n3 [label = "0", shape="circle"]
-n4 [label = "b", shape="circle"]
+n1 [label = "VarDec", shape="square"]
+n2 [label = "a", shape="circle"]
+n3 [label = "b", shape="circle"]
+n4 [label = "a", shape="circle"]
 n5 [label = "=", shape="diamond"]
-n6 [label = "1", shape="circle"]
-n7 [label = "While", shape="square"]
-n8 [label = "a", shape="circle"]
-n9 [label = "<", shape="diamond"]
-n10 [label = "99999", shape="circle"]
-n11 [label = "&&", shape="diamond"]
-n12 [label = "b", shape="circle"]
-n13 [label = "==", shape="diamond"]
-n14 [label = "1", shape="circle"]
-n15 [label = "Block", shape="square"]
-n16 [label = "a", shape="circle"]
-n17 [label = "=", shape="diamond"]
-n18 [label = "a", shape="circle"]
-n19 [label = "+", shape="diamond"]
-n20 [label = "1", shape="circle"]
-n21 [label = "Print", shape="square"]
-n22 [label = "a", shape="circle"]
-n23 [label = "If", shape="square"]
-n24 [label = "a", shape="circle"]
-n25 [label = "==", shape="diamond"]
-n26 [label = "5", shape="circle"]
-n27 [label = "Block", shape="square"]
-n28 [label = "b", shape="circle"]
-n29 [label = "=", shape="diamond"]
-n30 [label = "0", shape="circle"]
-n31 [label = "Print", shape="square"]
-n32 [label = "a", shape="circle"]
+n6 [label = "0", shape="circle"]
+n7 [label = "b", shape="circle"]
+n8 [label = "=", shape="diamond"]
+n9 [label = "1", shape="circle"]
+n10 [label = "While", shape="square"]
+n11 [label = "a", shape="circle"]
+n12 [label = "<", shape="diamond"]
+n13 [label = "99999", shape="circle"]
+n14 [label = "&&", shape="diamond"]
+n15 [label = "b", shape="circle"]
+n16 [label = "==", shape="diamond"]
+n17 [label = "1", shape="circle"]
+n18 [label = "Block", shape="square"]
+n19 [label = "a", shape="circle"]
+n20 [label = "=", shape="diamond"]
+n21 [label = "a", shape="circle"]
+n22 [label = "+", shape="diamond"]
+n23 [label = "1", shape="circle"]
+n24 [label = "Print", shape="square"]
+n25 [label = "a", shape="circle"]
+n26 [label = "If", shape="square"]
+n27 [label = "a", shape="circle"]
+n28 [label = "==", shape="diamond"]
+n29 [label = "5", shape="circle"]
+n30 [label = "Block", shape="square"]
+n31 [label = "b", shape="circle"]
+n32 [label = "=", shape="diamond"]
+n33 [label = "0", shape="circle"]
+n34 [label = "Print", shape="square"]
+n35 [label = "a", shape="circle"]
 
-"n2" -- "n1"
-"n2" -- "n3"
-"n0" -- "n2"
+"n1" -- "n2"
+"n1" -- "n3"
+"n0" -- "n1"
 "n5" -- "n4"
 "n5" -- "n6"
 "n0" -- "n5"
-"n9" -- "n8"
-"n9" -- "n10"
-"n11" -- "n9"
-"n13" -- "n12"
-"n13" -- "n14"
-"n11" -- "n13"
-"n7" -- "n11"
-"n17" -- "n16"
-"n19" -- "n18"
-"n19" -- "n20"
-"n17" -- "n19"
-"n15" -- "n17"
-"n21" -- "n22"
-"n15" -- "n21"
-"n25" -- "n24"
-"n25" -- "n26"
-"n23" -- "n25"
-"n29" -- "n28"
-"n29" -- "n30"
-"n27" -- "n29"
-"n23" -- "n27"
-"n15" -- "n23"
-"n7" -- "n15"
-"n0" -- "n7"
-"n31" -- "n32"
-"n0" -- "n31"
+"n8" -- "n7"
+"n8" -- "n9"
+"n0" -- "n8"
+"n12" -- "n11"
+"n12" -- "n13"
+"n14" -- "n12"
+"n16" -- "n15"
+"n16" -- "n17"
+"n14" -- "n16"
+"n10" -- "n14"
+"n20" -- "n19"
+"n22" -- "n21"
+"n22" -- "n23"
+"n20" -- "n22"
+"n18" -- "n20"
+"n24" -- "n25"
+"n18" -- "n24"
+"n28" -- "n27"
+"n28" -- "n29"
+"n26" -- "n28"
+"n32" -- "n31"
+"n32" -- "n33"
+"n30" -- "n32"
+"n26" -- "n30"
+"n18" -- "n26"
+"n10" -- "n18"
+"n0" -- "n10"
+"n34" -- "n35"
+"n0" -- "n34"
 }

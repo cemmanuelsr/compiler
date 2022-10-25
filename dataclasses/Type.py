@@ -54,7 +54,7 @@ class Type:
 
     @compare_with_int('-')
     def __neg__(self):
-        return Type(-self, self.cast_function)
+        return Type(-self(), self.cast_function)
 
     @compare_with_int('!')
     def __not__(self):

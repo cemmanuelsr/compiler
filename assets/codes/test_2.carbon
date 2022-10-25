@@ -1,4 +1,6 @@
 {
+    var i, n: i32;
+    var x: i32; var y : i32;
     i = 1;
     n = 5;
     x = 1; y = 1;

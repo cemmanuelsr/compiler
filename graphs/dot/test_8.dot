@@ -1,14 +1,18 @@
 graph g {
 n0 [label = "Block", shape="square"]
-n1 [label = "x", shape="circle"]
-n2 [label = "=", shape="diamond"]
-n3 [label = "Read", shape="square"]
-n4 [label = "Print", shape="square"]
-n5 [label = "x", shape="circle"]
+n1 [label = "VarDec", shape="square"]
+n2 [label = "x", shape="circle"]
+n3 [label = "x", shape="circle"]
+n4 [label = "=", shape="diamond"]
+n5 [label = "Read", shape="square"]
+n6 [label = "Print", shape="square"]
+n7 [label = "x", shape="circle"]
 
-"n2" -- "n1"
-"n2" -- "n3"
-"n0" -- "n2"
+"n1" -- "n2"
+"n0" -- "n1"
+"n4" -- "n3"
 "n4" -- "n5"
 "n0" -- "n4"
+"n6" -- "n7"
+"n0" -- "n6"
 }
