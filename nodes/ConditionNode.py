@@ -28,5 +28,5 @@ class ConditionNode(Node):
                 {self.children[1].evaluate()}
 
                 JMP CONDITION_{self.id}
-                EXITC_{self.id}
+                EXITC_{self.id}:
             '''

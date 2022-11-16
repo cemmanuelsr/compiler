@@ -124,7 +124,7 @@
             
             
             CMP EBX, False
-            JE EXIT_21
+            JE EXITL_21
             
             
             ; n3 = +
