@@ -1,6 +1,5 @@
 class Assembler:
-    header = '''
-    ; constantes
+    header = '''; constantes
     SYS_EXIT equ 1
     SYS_READ equ 3
     SYS_WRITE equ 4
@@ -85,8 +84,7 @@ class Assembler:
       ; codigo gerado pelo compilador
     '''
     body = ''
-    footer = '''
-    ; interrupcao de saida
+    footer = '''; interrupcao de saida
       POP EBP
       MOV EAX, 1
       INT 0x80
@@ -99,7 +97,8 @@ class Assembler:
     @staticmethod
     def write(filename: str = 'example.asm', path: str = 'assets/asm'):
         content = Assembler.header + '\n' + Assembler.body + '\n' + Assembler.footer
+        cleaned_content = '\n'.join([line.strip() for line in content.split('\n')])
         with open(f'{path}/{filename}.asm', 'w+') as file:
-            file.write(content)
+            file.write(cleaned_content)
         Assembler._restart()
 
