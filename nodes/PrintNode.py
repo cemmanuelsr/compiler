@@ -8,7 +8,7 @@ class PrintNode(Node):
 
     def evaluate(self):
         Assembler.body += f'''
-            {self.children[0].evaluate()}
+            MOV EBX, {self.children[0].evaluate().value}
 
             PUSH EBX
             CALL print

@@ -8,5 +8,5 @@ class IdentifierNode(Node):
         super().__init__(value)
 
     def evaluate(self):
-        Assembler.body += f'MOV EBX, [EBP-{symbol_table.get(self.value)[1]}]'
+        Assembler.body += f'MOV EBX, [EBP-{symbol_table.get(self.value)[1]}]\n'
         return symbol_table.get(self.value)[0]

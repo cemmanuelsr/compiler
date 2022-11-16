@@ -8,5 +8,5 @@ class IntegerNode(Node):
         super().__init__(value)
 
     def evaluate(self):
-        Assembler.body += f'MOV EBX, {self.value}'
+        Assembler.body += f'MOV EBX, {self.value}\n'
         return Type(self.value, int)

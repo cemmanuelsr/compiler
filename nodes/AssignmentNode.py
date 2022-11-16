@@ -10,6 +10,6 @@ class AssignmentNode(Node):
     def evaluate(self):
         symbol_table.set(self.children[0].value, self.children[1].evaluate())
         Assembler.body += f'''
-            {self.children[1].evaluate()}
+            MOV EBX, {self.children[1].evaluate().value}
             MOV [EBP-{symbol_table.get(self.children[0].value)[1]}], EBX
         '''
