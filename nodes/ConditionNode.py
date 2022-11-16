@@ -23,7 +23,7 @@ class ConditionNode(Node):
                 {self.children[0].evaluate()}
 
                 CMP EBX, False
-                JE EXIT_{self.id}
+                JE EXITC_{self.id}
 
                 {self.children[1].evaluate()}
 

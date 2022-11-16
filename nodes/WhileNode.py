@@ -12,7 +12,7 @@ class WhileNode(Node):
             {self.children[0].evaluate()}
             
             CMP EBX, False
-            JE EXIT_{self.id}
+            JE EXITL_{self.id}
             
             {self.children[1].evaluate()}
             
