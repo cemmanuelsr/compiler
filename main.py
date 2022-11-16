@@ -4,6 +4,9 @@ from processes.Assembler import Assembler
 
 if __name__ == "__main__":
     import sys
+    from os import getenv
+
+    environment = getenv('DEVELOPMENT', '0')
 
     file = sys.argv[1]
     filename = file.split('/')[-1].split('.')[:-1][0]
@@ -19,4 +22,4 @@ if __name__ == "__main__":
 
     root = Parser.run(code)
     Assembler.body = root.evaluate()
-    Assembler.write(filename)
+    Assembler.write(filename, path='assets/asm' if environment == '1' else '.')
