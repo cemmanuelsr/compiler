@@ -7,8 +7,8 @@ class VarDeclarationNode(Node):
         super().__init__('VarDec')
 
     def evaluate(self):
+        to_return = ''
         for child in self.children:
             symbol_table.create(child.value)
-        return f'''
-            PUSH DWORD 0
-        '''
+            to_return += 'PUSH DWORD 0\n'
+        return to_return

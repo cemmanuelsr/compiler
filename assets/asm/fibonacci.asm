@@ -83,9 +83,9 @@
     
       ; codigo gerado pelo compilador
     
+PUSH DWORD 0
+PUSH DWORD 0
 
-            PUSH DWORD 0
-        
             ; n1 = 1
             MOV EBX, 1
             MOV [EBP-4], EBX
@@ -101,15 +101,13 @@
             PUSH EBX
             CALL print
             POP EBX
-        
-            PUSH DWORD 0
-        
+        PUSH DWORD 0
+
             ; i = 0
             MOV EBX, 0
             MOV [EBP-12], EBX
-        
-            PUSH DWORD 0
-        
+        PUSH DWORD 0
+
             LOOP_21:
             
             
@@ -165,7 +163,7 @@
         
             
             JMP LOOP_21
-            EXITL_21
+            EXITL_21:
         
 
     ; interrupcao de saida
