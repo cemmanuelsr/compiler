@@ -8,6 +8,7 @@ class BinaryOpNode(Node):
     def evaluate(self):
         if self.value == '+':
             return f'''
+                ; {self.children[0].value} + {self.children[1].value}
                 MOV EBX, {self.children[0].evaluate()}
                 PUSH EBX
                 MOV EBX, {self.children[1].evaluate()}
@@ -17,6 +18,7 @@ class BinaryOpNode(Node):
             '''
         if self.value == '-':
             return f'''
+                ; {self.children[0].value} - {self.children[1].value}
                 MOV EBX, {self.children[0].evaluate()}
                 PUSH EBX
                 MOV EBX, {self.children[1].evaluate()}
@@ -26,6 +28,7 @@ class BinaryOpNode(Node):
             '''
         if self.value == '*':
             return f'''
+                ; {self.children[0].value} * {self.children[1].value}
                 MOV EBX, {self.children[0].evaluate()}
                 PUSH EBX
                 MOV EBX, {self.children[1].evaluate()}
@@ -35,6 +38,7 @@ class BinaryOpNode(Node):
             '''
         if self.value == '/':
             return f'''
+                ; {self.children[0].value} / {self.children[1].value}
                 MOV EBX, {self.children[0].evaluate()}
                 PUSH EBX
                 MOV EBX, {self.children[1].evaluate()}
@@ -44,6 +48,7 @@ class BinaryOpNode(Node):
             '''
         if self.value == '&&':
             return f'''
+                ; {self.children[0].value} && {self.children[1].value}
                 MOV EBX, {self.children[0].evaluate()}
                 PUSH EBX
                 MOV EBX, {self.children[1].evaluate()}
@@ -53,6 +58,7 @@ class BinaryOpNode(Node):
             '''
         if self.value == '||':
             return f'''
+                ; {self.children[0].value} || {self.children[1].value}
                 MOV EBX, {self.children[0].evaluate()}
                 PUSH EBX
                 MOV EBX, {self.children[1].evaluate()}
@@ -62,6 +68,7 @@ class BinaryOpNode(Node):
             '''
         if self.value == '==':
             return f'''
+                ; {self.children[0].value} == {self.children[1].value}
                 MOV EBX, {self.children[0].evaluate()}
                 PUSH EBX
                 MOV EBX, {self.children[1].evaluate()}
@@ -72,6 +79,7 @@ class BinaryOpNode(Node):
             '''
         if self.value == '>':
             return f'''
+                ; {self.children[0].value} > {self.children[1].value}
                 MOV EBX, {self.children[0].evaluate()}
                 PUSH EBX
                 MOV EBX, {self.children[1].evaluate()}
@@ -82,6 +90,7 @@ class BinaryOpNode(Node):
             '''
         if self.value == '<':
             return f'''
+                ; {self.children[0].value} < {self.children[1].value}
                 MOV EBX, {self.children[0].evaluate()}
                 PUSH EBX
                 MOV EBX, {self.children[1].evaluate()}

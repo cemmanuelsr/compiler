@@ -8,10 +8,16 @@ class ConditionNode(Node):
     def evaluate(self):
         if self.value == 'Else':
             return f'''
+                ; else
                 {self.children[0].evaluate()}
             '''
-        elif self.children[0].evaluate()():
+        elif len(self.children) > 2:
             return f'''
+                {self.children[2].evaluate()}
+            '''
+        else:
+            return f'''
+                ; if 
                 CONDITION_{self.id}:
 
                 {self.children[0].evaluate()}
@@ -22,9 +28,5 @@ class ConditionNode(Node):
                 {self.children[1].evaluate()}
 
                 JMP CONDITION_{self.id}
-                EXIT_{self.id}
-            '''
-        elif len(self.children) > 2:
-            return f'''
-                {self.children[2].evaluate()}
+                EXITC_{self.id}
             '''

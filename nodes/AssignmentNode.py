@@ -8,6 +8,7 @@ class AssignmentNode(Node):
 
     def evaluate(self):
         return f'''
+            ; {self.children[0].value} = {self.children[1].value}
             MOV EBX, {self.children[1].evaluate()}
             MOV [EBP-{symbol_table.get(self.children[0].value)}], EBX
         '''

@@ -8,5 +8,5 @@ class IdentifierNode(Node):
 
     def evaluate(self):
         return f'''
-            MOV EBX, [EBP-{symbol_table.get(self.value)}]
+            MOV EBX, [EBP-{symbol_table.get(self.value)}] ; {self.value}
         '''

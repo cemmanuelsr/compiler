@@ -17,5 +17,5 @@ class WhileNode(Node):
             {self.children[1].evaluate()}
             
             JMP LOOP_{self.id}
-            EXIT_{self.id}
+            EXITL_{self.id}
         '''

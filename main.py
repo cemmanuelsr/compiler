@@ -1,5 +1,6 @@
 from parsers.Parser import Parser
 from processes.PrePro import PrePro
+from processes.Assembler import Assembler
 
 if __name__ == "__main__":
     import sys
@@ -17,4 +18,5 @@ if __name__ == "__main__":
     code = '\n'.join(lines)
 
     root = Parser.run(code)
-    print(root.evaluate())
+    Assembler.body = root.evaluate()
+    print(Assembler.write())
