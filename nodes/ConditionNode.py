@@ -6,6 +6,7 @@ class ConditionNode(Node):
         super().__init__(value)
 
     def evaluate(self):
+        return ''
         if self.value == 'Else':
             return f'''
                 ; else
