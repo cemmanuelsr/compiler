@@ -1,6 +1,5 @@
 from parsers.Parser import Parser
 from processes.PrePro import PrePro
-from processes.Assembler import Assembler
 
 if __name__ == "__main__":
     import sys
@@ -19,4 +18,3 @@ if __name__ == "__main__":
 
     root = Parser.run(code)
     root.evaluate()
-    Assembler.write(filename, path='.')
