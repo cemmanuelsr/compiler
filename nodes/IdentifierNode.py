@@ -7,4 +7,4 @@ class IdentifierNode(Node):
         super().__init__(value)
 
     def evaluate(self):
-        return f'[EBP-{symbol_table.get(self.value)}] ; {self.value}'
+        return f'MOV EBX, [EBP-{symbol_table.get(self.value)}] ; {self.value}'

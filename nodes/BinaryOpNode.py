@@ -1,4 +1,6 @@
 from .Node import Node
+from .IntegerNode import IntegerNode
+from .IdentifierNode import IdentifierNode
 
 
 class BinaryOpNode(Node):
@@ -9,9 +11,9 @@ class BinaryOpNode(Node):
         if self.value == '+':
             return f'''
                 ; {self.children[0].value} + {self.children[1].value}
-                MOV EBX, {self.children[0].evaluate()}
+                {self.children[0].evaluate()}
                 PUSH EBX
-                MOV EBX, {self.children[1].evaluate()}
+                {self.children[1].evaluate()}
                 POP EAX
                 ADD EAX, EBX
                 MOV EBX, EAX
@@ -19,9 +21,9 @@ class BinaryOpNode(Node):
         if self.value == '-':
             return f'''
                 ; {self.children[0].value} - {self.children[1].value}
-                MOV EBX, {self.children[0].evaluate()}
+                {self.children[0].evaluate()}
                 PUSH EBX
-                MOV EBX, {self.children[1].evaluate()}
+                {self.children[1].evaluate()}
                 POP EAX
                 SUB EAX, EBX
                 MOV EBX, EAX
@@ -29,9 +31,9 @@ class BinaryOpNode(Node):
         if self.value == '*':
             return f'''
                 ; {self.children[0].value} * {self.children[1].value}
-                MOV EBX, {self.children[0].evaluate()}
+                {self.children[0].evaluate()}
                 PUSH EBX
-                MOV EBX, {self.children[1].evaluate()}
+                {self.children[1].evaluate()}
                 POP EAX
                 MUL EBX
                 MOV EBX, EAX
@@ -39,9 +41,9 @@ class BinaryOpNode(Node):
         if self.value == '/':
             return f'''
                 ; {self.children[0].value} / {self.children[1].value}
-                MOV EBX, {self.children[0].evaluate()}
+                {self.children[0].evaluate()}
                 PUSH EBX
-                MOV EBX, {self.children[1].evaluate()}
+                {self.children[1].evaluate()}
                 POP EAX
                 DIV EBX
                 MOV EBX, EAX
@@ -49,9 +51,9 @@ class BinaryOpNode(Node):
         if self.value == '&&':
             return f'''
                 ; {self.children[0].value} && {self.children[1].value}
-                MOV EBX, {self.children[0].evaluate()}
+                {self.children[0].evaluate()}
                 PUSH EBX
-                MOV EBX, {self.children[1].evaluate()}
+                {self.children[1].evaluate()}
                 POP EAX
                 AND EAX, EBX
                 MOV EBX, EAX
@@ -59,9 +61,9 @@ class BinaryOpNode(Node):
         if self.value == '||':
             return f'''
                 ; {self.children[0].value} || {self.children[1].value}
-                MOV EBX, {self.children[0].evaluate()}
+                {self.children[0].evaluate()}
                 PUSH EBX
-                MOV EBX, {self.children[1].evaluate()}
+                {self.children[1].evaluate()}
                 POP EAX
                 OR EAX, EBX
                 MOV EBX, EAX
@@ -69,9 +71,9 @@ class BinaryOpNode(Node):
         if self.value == '==':
             return f'''
                 ; {self.children[0].value} == {self.children[1].value}
-                MOV EBX, {self.children[0].evaluate()}
+                {self.children[0].evaluate()}
                 PUSH EBX
-                MOV EBX, {self.children[1].evaluate()}
+                {self.children[1].evaluate()}
                 POP EAX
                 CMP EAX, EBX
                 JE EQUALITY_{self.id}
@@ -82,9 +84,9 @@ class BinaryOpNode(Node):
         if self.value == '>':
             return f'''
                 ; {self.children[0].value} > {self.children[1].value}
-                MOV EBX, {self.children[0].evaluate()}
+                {self.children[0].evaluate()}
                 PUSH EBX
-                MOV EBX, {self.children[1].evaluate()}
+                {self.children[1].evaluate()}
                 POP EAX
                 CMP EAX, EBX
                 JG EQUALITY_{self.id}
@@ -95,14 +97,13 @@ class BinaryOpNode(Node):
         if self.value == '<':
             return f'''
                 ; {self.children[0].value} < {self.children[1].value}
-                MOV EBX, {self.children[0].evaluate()}
+                {self.children[0].evaluate()}
                 PUSH EBX
-                MOV EBX, {self.children[1].evaluate()}
+                {self.children[1].evaluate()}
                 POP EAX
                 CMP EAX, EBX
                 JL EQUALITY_{self.id}
                 MOV EBX, 0
                 EQUALITY_{self.id}:
                 MOV EBX, 1
-
             '''
