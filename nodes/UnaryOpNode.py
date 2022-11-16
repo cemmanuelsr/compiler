@@ -7,8 +7,8 @@ class UnaryOpNode(Node):
 
     def evaluate(self):
         if self.value == '+':
-            return self.children[0].evaluate()
-        if self.value == '-':
-            return -self.children[0].evaluate()
-        if self.value == '!':
-            return self.children[0].evaluate().__not__()
+            return ''
+        if self.value == '-' or self.value == '!':
+            return '''
+                NEG EBX
+            '''

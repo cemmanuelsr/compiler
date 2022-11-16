@@ -66,12 +66,27 @@ class BinaryOpNode(Node):
                 PUSH EBX
                 MOV EBX, {self.children[1].evaluate()}
                 POP EAX
-                JE EAX, EBX
-                MOV EBX, EAX
+                SUB EAX, EBX
+                CMP EAX, 0
+                MOV EBX, ZF
             '''
         if self.value == '>':
-            return self.children[0].evaluate() > self.children[1].evaluate()
+            return f'''
+                MOV EBX, {self.children[0].evaluate()}
+                PUSH EBX
+                MOV EBX, {self.children[1].evaluate()}
+                POP EAX
+                SUB EAX, EBX
+                CMP 0, EAX
+                MOV EBX, CF
+            '''
         if self.value == '<':
-            return self.children[0].evaluate() < self.children[1].evaluate()
-        if self.value == '.':
-            return self.children[0].evaluate().__concat__(self.children[1].evaluate())
+            return f'''
+                MOV EBX, {self.children[0].evaluate()}
+                PUSH EBX
+                MOV EBX, {self.children[1].evaluate()}
+                POP EAX
+                SUB EAX, EBX
+                CMP EAX, 0
+                MOV EBX, CF
+            '''

@@ -17,4 +17,4 @@ if __name__ == "__main__":
     code = '\n'.join(lines)
 
     root = Parser.run(code)
-    root.evaluate()
+    print(root.evaluate())

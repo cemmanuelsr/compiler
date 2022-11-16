@@ -6,5 +6,16 @@ class WhileNode(Node):
         super().__init__('While')
 
     def evaluate(self):
-        while self.children[0].evaluate()():
-            self.children[1].evaluate()
+        return f'''
+            LOOP_{self.id}:
+            
+            {self.children[0].evaluate()}
+            
+            CMP EBX, False
+            JE EXIT_{self.id}
+            
+            {self.children[1].evaluate()}
+            
+            JMP LOOP_{self.id}
+            EXIT_{self.id}
+        '''

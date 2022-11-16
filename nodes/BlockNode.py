@@ -9,6 +9,6 @@ class BlockNode(Node):
         asm = ''
         for child in self.children:
             if child is not None:
-                asm += (child.evaluate() + '\n')
+                asm += child.evaluate()
 
         return asm

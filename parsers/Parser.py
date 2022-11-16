@@ -27,10 +27,8 @@ from nodes.BinaryOpNode import BinaryOpNode
 from nodes.AssignmentNode import AssignmentNode
 from nodes.IdentifierNode import IdentifierNode
 from nodes.PrintNode import PrintNode
-from nodes.ReadNode import ReadNode
 from nodes.ConditionNode import ConditionNode
 from nodes.WhileNode import WhileNode
-from nodes.StringNode import StringNode
 from nodes.VarDeclarationNode import VarDeclarationNode
 from nodes.BlockNode import BlockNode
 
@@ -49,11 +47,6 @@ class Parser:
         node = None
         if isinstance(Parser.tokenizer.next, NumericToken):
             node = IntegerNode(Parser.tokenizer.next.value)
-            Parser.last_node = node
-            if not isinstance(Parser.tokenizer.see_next()[0], OpenBracketToken):
-                Parser.tokenizer.select_next()
-        elif isinstance(Parser.tokenizer.next, StringToken):
-            node = StringNode(Parser.tokenizer.next.value)
             Parser.last_node = node
             if not isinstance(Parser.tokenizer.see_next()[0], OpenBracketToken):
                 Parser.tokenizer.select_next()
@@ -80,20 +73,6 @@ class Parser:
             Parser.tokenizer.select_next()
             node.children.append(Parser.parse_factor())
             Parser.last_node = node
-        elif isinstance(Parser.tokenizer.next, ReadToken):
-            node = ReadNode()
-            Parser.last_node = node
-            Parser.tokenizer.select_next()
-            if isinstance(Parser.tokenizer.next, OpenParenthesisToken):
-                Parser.tokenizer.select_next()
-                if not isinstance(Parser.tokenizer.next, CloseParenthesisToken):
-                    raise Exception(
-                        f"Missing close parenthesis at Read factor, instead receive {Parser.tokenizer.next.value}")
-            else:
-                raise Exception(
-                    f"Missing open parenthesis after Read token, instead receive {Parser.tokenizer.next.value}")
-            if not isinstance(Parser.tokenizer.see_next()[0], OpenBracketToken):
-                Parser.tokenizer.select_next()
         elif isinstance(Parser.tokenizer.next, OpenParenthesisToken):
             node = Parser.parse_rel_expression()
             if not isinstance(Parser.tokenizer.next, CloseParenthesisToken):
