@@ -1,5 +1,4 @@
 from .Node import Node
-from dataclasses.Type import Type
 
 
 class ReadNode(Node):

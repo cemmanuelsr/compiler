@@ -6,6 +6,9 @@ class BlockNode(Node):
         super().__init__('Block')
 
     def evaluate(self):
+        asm = ''
         for child in self.children:
             if child is not None:
-                child.evaluate()
+                asm += (child.evaluate() + '\n')
+
+        return asm

@@ -7,4 +7,6 @@ class IdentifierNode(Node):
         super().__init__(value)
 
     def evaluate(self):
-        return symbol_table.get(self.value)
+        return f'''
+            MOV EBX, [EBP-{symbol_table.get(self.value)}]
+        '''

@@ -1,5 +1,4 @@
 from .Node import Node
-from dataclasses.Type import Type
 
 
 class IntegerNode(Node):
@@ -7,4 +6,6 @@ class IntegerNode(Node):
         super().__init__(value)
 
     def evaluate(self):
-        return Type(self.value, int)
+        return f'''
+            MOV EBX, {self.value}
+        '''

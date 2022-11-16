@@ -6,4 +6,8 @@ class PrintNode(Node):
         super().__init__('Print')
 
     def evaluate(self):
-        print(self.children[0].evaluate()())
+        return f'''
+            PUSH EBX
+            CALL print
+            POP EBX
+        '''

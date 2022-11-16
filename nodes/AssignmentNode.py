@@ -7,4 +7,9 @@ class AssignmentNode(Node):
         super().__init__('=')
 
     def evaluate(self):
-        symbol_table.set(self.children[0].value, self.children[1].evaluate())
+        symbol_table.create(self.children[0].value, self.children[1].evaluate())
+        return f'''
+            PUSH DWORD 0
+            MOV EBX, {self.children[1].evaluate()}
+            MOV [EBP-{symbol_table.get(self.children[0].value)}], EBX
+        '''
