@@ -73,9 +73,11 @@ class BinaryOpNode(Node):
                 PUSH EBX
                 MOV EBX, {self.children[1].evaluate()}
                 POP EAX
-                SUB EAX, EBX
-                CMP EAX, 0
-                MOV EBX, ZF
+                CMP EAX, EBX
+                JE EQUALITY_{self.id}
+                MOV EBX, 0
+                EQUALITY_{self.id}:
+                MOV EBX, 1
             '''
         if self.value == '>':
             return f'''
@@ -84,9 +86,11 @@ class BinaryOpNode(Node):
                 PUSH EBX
                 MOV EBX, {self.children[1].evaluate()}
                 POP EAX
-                SUB EAX, EBX
-                CMP 0, EAX
-                MOV EBX, CF
+                CMP EAX, EBX
+                JG EQUALITY_{self.id}
+                MOV EBX, 0
+                EQUALITY_{self.id}:
+                MOV EBX, 1
             '''
         if self.value == '<':
             return f'''
@@ -95,7 +99,10 @@ class BinaryOpNode(Node):
                 PUSH EBX
                 MOV EBX, {self.children[1].evaluate()}
                 POP EAX
-                SUB EAX, EBX
-                CMP EAX, 0
-                MOV EBX, CF
+                CMP EAX, EBX
+                JL EQUALITY_{self.id}
+                MOV EBX, 0
+                EQUALITY_{self.id}:
+                MOV EBX, 1
+
             '''

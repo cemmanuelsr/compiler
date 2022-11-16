@@ -116,9 +116,12 @@ PUSH DWORD 0
                 PUSH EBX
                 MOV EBX, 100
                 POP EAX
-                SUB EAX, EBX
-                CMP EAX, 0
-                MOV EBX, CF
+                CMP EAX, EBX
+                JL EQUALITY_23
+                MOV EBX, 0
+                EQUALITY_23:
+                MOV EBX, 1
+
             
             
             CMP EBX, False
