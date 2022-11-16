@@ -98,5 +98,8 @@ class Assembler:
 
     @staticmethod
     def write(filename: str = 'example.asm', path: str = 'assets/asm'):
-        return Assembler.header + '\n' + Assembler.body + '\n' + Assembler.footer
+        content = Assembler.header + '\n' + Assembler.body + '\n' + Assembler.footer
+        with open(f'{path}/{filename}.asm', 'w+') as file:
+            file.write(content)
+        Assembler._restart()
 

@@ -19,4 +19,4 @@ if __name__ == "__main__":
 
     root = Parser.run(code)
     Assembler.body = root.evaluate()
-    print(Assembler.write())
+    Assembler.write(filename)

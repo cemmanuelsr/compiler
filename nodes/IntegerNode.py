@@ -6,6 +6,4 @@ class IntegerNode(Node):
         super().__init__(value)
 
     def evaluate(self):
-        return f'''
-            MOV EBX, {self.value}
-        '''
+        return self.value
