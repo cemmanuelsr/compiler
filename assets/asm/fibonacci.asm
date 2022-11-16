@@ -86,14 +86,14 @@
 PUSH DWORD 0
 PUSH DWORD 0
 
-            ; n1 = 1
-            MOV EBX, 1
-            MOV [EBP-4], EBX
-        
-            ; n2 = 1
-            MOV EBX, 1
-            MOV [EBP-8], EBX
-        
+                ; n1 = 1
+                MOV EBX, 1
+                MOV [EBP-4], EBX
+            
+                ; n2 = 1
+                MOV EBX, 1
+                MOV [EBP-8], EBX
+            
             PUSH EBX
             CALL print
             POP EBX
@@ -103,10 +103,10 @@ PUSH DWORD 0
             POP EBX
         PUSH DWORD 0
 
-            ; i = 0
-            MOV EBX, 0
-            MOV [EBP-12], EBX
-        PUSH DWORD 0
+                ; i = 0
+                MOV EBX, 0
+                MOV [EBP-12], EBX
+            PUSH DWORD 0
 
             LOOP_21:
             
@@ -125,8 +125,7 @@ PUSH DWORD 0
             JE EXITL_21
             
             
-            ; n3 = +
-            MOV EBX, 
+            
                 ; n2 + n1
                 MOV EBX, [EBP-8] ; n2
                 PUSH EBX
@@ -141,16 +140,15 @@ PUSH DWORD 0
             CALL print
             POP EBX
         
-            ; n1 = n2
-            MOV EBX, [EBP-8] ; n2
-            MOV [EBP-4], EBX
-        
-            ; n2 = n3
-            MOV EBX, [EBP-16] ; n3
-            MOV [EBP-8], EBX
-        
-            ; i = +
-            MOV EBX, 
+                ; n1 = n2
+                MOV EBX, [EBP-8] ; n2
+                MOV [EBP-4], EBX
+            
+                ; n2 = n3
+                MOV EBX, [EBP-16] ; n3
+                MOV [EBP-8], EBX
+            
+            
                 ; i + 1
                 MOV EBX, [EBP-12] ; i
                 PUSH EBX
