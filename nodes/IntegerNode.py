@@ -1,5 +1,6 @@
 from .Node import Node
 from dataclasses.Type import Type
+from processes.Assembler import Assembler
 
 
 class IntegerNode(Node):
@@ -7,4 +8,5 @@ class IntegerNode(Node):
         super().__init__(value)
 
     def evaluate(self):
+        Assembler.body += f'MOV EBX, {self.value}'
         return Type(self.value, int)

@@ -1,4 +1,5 @@
 from .Node import Node
+from processes.Assembler import Assembler
 
 
 class PrintNode(Node):
@@ -6,4 +7,10 @@ class PrintNode(Node):
         super().__init__('Print')
 
     def evaluate(self):
-        print(self.children[0].evaluate()())
+        Assembler.body += f'''
+            {self.children[0].evaluate()}
+
+            PUSH EBX
+            CALL print
+            POP EBX
+        '''
