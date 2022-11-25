@@ -17,6 +17,9 @@ from tokens.DotToken import DotToken
 from tokens.TypeToken import TypeToken
 from tokens.VarDeclarationToken import VarDeclarationToken
 from tokens.StringToken import StringToken
+from tokens.FnToken import FnToken
+from tokens.RightArrowToken import RightArrowToken
+from tokens.ReturnToken import ReturnToken
 
 func_token_map = {
     'Print': PrintToken,
@@ -26,7 +29,9 @@ func_token_map = {
     'else': ElseToken,
     'var': VarDeclarationToken,
     'i32': TypeToken,
-    'String': TypeToken
+    'String': TypeToken,
+    'fn': FnToken,
+    'return': ReturnToken
 }
 
 
@@ -88,8 +93,12 @@ class Tokenizer:
             next = PlusToken()
             position += 1
         elif c == '-':
-            next = MinusToken()
-            position += 1
+            if position + 1 < str_size and self.source[position + 1] == '>':
+                next = RightArrowToken()
+                position += 2
+            else:
+                next = MinusToken()
+                position += 1
         elif c == '*':
             next = MultToken()
             position += 1

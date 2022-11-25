@@ -1,5 +1,5 @@
 from dataclasses.List import List
-from dataclasses.Type import Type
+from dataclasses.Variable import Type
 from processes.WriteDotFile import Writer
 
 
@@ -9,5 +9,5 @@ class Node:
         self.children = List(self)
         Writer.create_node_name(self)
 
-    def evaluate(self) -> Type:
+    def evaluate(self, symbol_table) -> Type:
         ...

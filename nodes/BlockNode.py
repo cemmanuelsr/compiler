@@ -5,7 +5,7 @@ class BlockNode(Node):
     def __init__(self):
         super().__init__('Block')
 
-    def evaluate(self):
+    def evaluate(self, symbol_table):
         for child in self.children:
             if child is not None:
-                child.evaluate()
+                child.evaluate(symbol_table)

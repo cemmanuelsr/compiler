@@ -6,7 +6,7 @@ import sys
 from processes.PrePro import PrePro
 from processes.WriteDotFile import Writer
 from parsers.Parser import Parser
-from symbol_tables import symbol_table
+from tables import symbol_table
 
 
 class CapturingStdOut(list):
@@ -33,7 +33,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_1', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['101'])
         symbol_table.table = {}
 
@@ -47,7 +47,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_2', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['5', '4', '5', '6'])
         symbol_table.table = {}
 
@@ -61,7 +61,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_3', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, [])
         symbol_table.table = {}
 
@@ -88,7 +88,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_5', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['1'])
         symbol_table.table = {}
 
@@ -102,7 +102,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_5', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['3'])
         symbol_table.table = {}
 
@@ -116,7 +116,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_7', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['2'])
         symbol_table.table = {}
 
@@ -131,7 +131,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_8', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['7'])
         symbol_table.table = {}
 
@@ -146,7 +146,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_9', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['10'])
         symbol_table.table = {}
 
@@ -161,7 +161,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_10', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['19'])
         symbol_table.table = {}
 
@@ -214,7 +214,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_14', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['4'])
         symbol_table.table = {}
 
@@ -228,7 +228,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_15', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['1'])
         symbol_table.table = {}
 
@@ -242,7 +242,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_16', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['1', '2'])
         symbol_table.table = {}
 
@@ -256,7 +256,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_17', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['2'])
         symbol_table.table = {}
 
@@ -270,7 +270,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_18', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['1'])
         symbol_table.table = {}
 
@@ -284,7 +284,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_19', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['1'])
         symbol_table.table = {}
 
@@ -298,7 +298,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_20', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['1'])
         symbol_table.table = {}
 
@@ -312,7 +312,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_21', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['1'])
         symbol_table.table = {}
 
@@ -326,7 +326,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_22', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['2'])
         symbol_table.table = {}
 
@@ -340,7 +340,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_23', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['1', '2', '3'])
         symbol_table.table = {}
 
@@ -354,7 +354,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_24', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['1', '2', '3'])
         symbol_table.table = {}
 
@@ -368,7 +368,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_25', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['1', '2', '3', '4', '5', '5'])
         symbol_table.table = {}
 
@@ -396,7 +396,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_27', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['3', '3', '2', '1', '0'])
         symbol_table.table = {}
 
@@ -410,7 +410,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_28', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['1'])
         symbol_table.table = {}
 
@@ -424,7 +424,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_29', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['3', '1', '2', '2', '0', '0', '1'])
         symbol_table.table = {}
 
@@ -438,7 +438,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_30', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['abcdef', 'abc1', '1abc', '12', 'abc1', '1', '1', '0'])
         symbol_table.table = {}
 
@@ -452,7 +452,7 @@ class TestParser(unittest.TestCase):
         root = Parser.run(code)
         Writer.write('test_31', path='../graphs/dot')
         with CapturingStdOut() as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         self.assertEqual(output, ['0'])
         symbol_table.table = {}
 
@@ -465,7 +465,7 @@ class TestParser(unittest.TestCase):
         code = '\n'.join(lines)
         root = Parser.run(code)
         with self.assertRaises(Exception) as output:
-            root.evaluate()
+            root.evaluate(symbol_table)
         Writer.write_exception(str(output.exception), Parser.last_node)
         Writer.write('test_32', path='../graphs/dot')
         symbol_table.table = {}

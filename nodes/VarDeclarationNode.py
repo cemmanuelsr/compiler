@@ -1,6 +1,5 @@
 from .Node import Node
-from symbol_tables import symbol_table
-from dataclasses.Type import Type
+from dataclasses.Variable import Type
 
 
 class VarDeclarationNode(Node):
@@ -8,6 +7,6 @@ class VarDeclarationNode(Node):
         super().__init__('VarDec')
         self.cast_function = cast_function
 
-    def evaluate(self):
+    def evaluate(self, symbol_table):
         for child in self.children:
             symbol_table.create(child.value, Type(0 if self.cast_function == int else '', self.cast_function))
