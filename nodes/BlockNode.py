@@ -12,3 +12,4 @@ class BlockNode(Node):
 
         if self.value != 'Root':
             return to_return
+        
