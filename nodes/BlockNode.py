@@ -8,4 +8,7 @@ class BlockNode(Node):
     def evaluate(self, symbol_table):
         for child in self.children:
             if child is not None:
-                child.evaluate(symbol_table)
+                to_return = child.evaluate(symbol_table)
+
+        if self.value != 'Root':
+            return to_return
