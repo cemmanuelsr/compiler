@@ -1,6 +1,6 @@
 from parsers.Parser import Parser
 from processes.PrePro import PrePro
-from processes.Assembler import Assembler
+from tables import symbol_table
 
 if __name__ == "__main__":
     import sys
@@ -18,5 +18,4 @@ if __name__ == "__main__":
     code = '\n'.join(lines)
 
     root = Parser.run(code)
-    Assembler.body = root.evaluate()
-    Assembler.write(filename, path='.')
+    root.evaluate(symbol_table)

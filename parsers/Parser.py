@@ -17,6 +17,9 @@ from tokens.DotToken import DotToken
 from tokens.StringToken import StringToken
 from tokens.TypeToken import TypeToken
 from tokens.VarDeclarationToken import VarDeclarationToken
+from tokens.FnToken import FnToken
+from tokens.RightArrowToken import RightArrowToken
+from tokens.ReturnToken import ReturnToken
 from tokens.EOFToken import EOFToken
 
 from nodes.Node import Node
@@ -27,15 +30,25 @@ from nodes.BinaryOpNode import BinaryOpNode
 from nodes.AssignmentNode import AssignmentNode
 from nodes.IdentifierNode import IdentifierNode
 from nodes.PrintNode import PrintNode
+from nodes.ReadNode import ReadNode
 from nodes.ConditionNode import ConditionNode
 from nodes.WhileNode import WhileNode
+from nodes.StringNode import StringNode
 from nodes.VarDeclarationNode import VarDeclarationNode
+from nodes.FuncDecNode import FuncDecNode
+from nodes.FuncCallNode import FuncCallNode
+from nodes.ReturnNode import ReturnNode
 from nodes.BlockNode import BlockNode
 
 
 def is_a_possible_token(token):
     return isinstance(token,
-                      (NumericToken, PlusToken, MinusToken, OpenParenthesisToken, IdentifierToken, NotToken, ReadToken, StringToken, DotToken))
+                      (NumericToken, PlusToken, MinusToken, OpenParenthesisToken, IdentifierToken, NotToken, ReadToken,
+                       StringToken, DotToken))
+
+
+possible_rel_expression_first_token = (
+    IdentifierToken, NumericToken, PlusToken, MinusToken, OpenParenthesisToken, NotToken, ReadToken, StringToken)
 
 
 class Parser:
@@ -50,11 +63,29 @@ class Parser:
             Parser.last_node = node
             if not isinstance(Parser.tokenizer.see_next()[0], OpenBracketToken):
                 Parser.tokenizer.select_next()
-        elif isinstance(Parser.tokenizer.next, IdentifierToken):
-            node = IdentifierNode(Parser.tokenizer.next.value)
+        elif isinstance(Parser.tokenizer.next, StringToken):
+            node = StringNode(Parser.tokenizer.next.value)
             Parser.last_node = node
             if not isinstance(Parser.tokenizer.see_next()[0], OpenBracketToken):
                 Parser.tokenizer.select_next()
+        elif isinstance(Parser.tokenizer.next, IdentifierToken):
+            if isinstance(Parser.tokenizer.see_next()[0], OpenParenthesisToken):
+                node = FuncCallNode(Parser.tokenizer.next.value)
+                Parser.tokenizer.select_next()
+
+                while isinstance(Parser.tokenizer.next, (CommaToken,) + possible_rel_expression_first_token):
+                    node.children.append(Parser.parse_rel_expression())
+                    if not isinstance(Parser.tokenizer.next, (CommaToken, CloseParenthesisToken)):
+                        raise Exception(f"Expected comma to separate arguments, received {Parser.tokenizer.next.value}")
+                if not isinstance(Parser.tokenizer.next, CloseParenthesisToken):
+                    raise Exception(f"Missing closing parenthesis, received {Parser.tokenizer.next.value}")
+                if not isinstance(Parser.tokenizer.see_next()[0], OpenBracketToken):
+                    Parser.tokenizer.select_next()
+            else:
+                node = IdentifierNode(Parser.tokenizer.next.value)
+                Parser.last_node = node
+                if not isinstance(Parser.tokenizer.see_next()[0], OpenBracketToken):
+                    Parser.tokenizer.select_next()
         elif isinstance(Parser.tokenizer.next, PlusToken):
             node = UnaryOpNode('+')
             Parser.last_node = node
@@ -73,6 +104,20 @@ class Parser:
             Parser.tokenizer.select_next()
             node.children.append(Parser.parse_factor())
             Parser.last_node = node
+        elif isinstance(Parser.tokenizer.next, ReadToken):
+            node = ReadNode()
+            Parser.last_node = node
+            Parser.tokenizer.select_next()
+            if isinstance(Parser.tokenizer.next, OpenParenthesisToken):
+                Parser.tokenizer.select_next()
+                if not isinstance(Parser.tokenizer.next, CloseParenthesisToken):
+                    raise Exception(
+                        f"Missing close parenthesis at Read factor, instead receive {Parser.tokenizer.next.value}")
+            else:
+                raise Exception(
+                    f"Missing open parenthesis after Read token, instead receive {Parser.tokenizer.next.value}")
+            if not isinstance(Parser.tokenizer.see_next()[0], OpenBracketToken):
+                Parser.tokenizer.select_next()
         elif isinstance(Parser.tokenizer.next, OpenParenthesisToken):
             node = Parser.parse_rel_expression()
             if not isinstance(Parser.tokenizer.next, CloseParenthesisToken):
@@ -275,22 +320,42 @@ class Parser:
                 raise Exception(f"Missing semicolon marker after Print, received {Parser.tokenizer.next.value}")
 
         elif isinstance(Parser.tokenizer.next, IdentifierToken):
-            left_child = IdentifierNode(Parser.tokenizer.next.value)
             Parser.last_node = node
 
-            Parser.tokenizer.select_next()
-
-            if isinstance(Parser.tokenizer.next, AssignmentToken):
+            if isinstance(Parser.tokenizer.see_next()[0], AssignmentToken):
+                left_child = IdentifierNode(Parser.tokenizer.next.value)
+                Parser.tokenizer.select_next()
                 node = AssignmentNode()
                 node.children.append(left_child)
                 Parser.last_node = node
                 node.children.append(Parser.parse_rel_expression())
                 Parser.last_node = node
-            else:
-                raise Exception(f"Missing assignment token after identifier, received {Parser.tokenizer.next.value}")
 
-            if not isinstance(Parser.tokenizer.next, SemicolonToken):
-                raise Exception(f"Missing semicolon marker after identifier, received {Parser.tokenizer.next.value}")
+                if not isinstance(Parser.tokenizer.next, SemicolonToken):
+                    raise Exception(
+                        f"Missing semicolon marker after identifier, received {Parser.tokenizer.next.value}")
+
+            elif isinstance(Parser.tokenizer.see_next()[0], OpenParenthesisToken):
+                node = FuncCallNode(Parser.tokenizer.next.value)
+                Parser.last_node = node
+                Parser.tokenizer.select_next()
+
+                while isinstance(Parser.tokenizer.next, (CommaToken,) + possible_rel_expression_first_token):
+                    node.children.append(Parser.parse_rel_expression())
+                    Parser.tokenizer.select_next()
+                    if not isinstance(Parser.tokenizer.next, (CommaToken, CloseParenthesisToken)):
+                        raise Exception(f"Expected comma to separate arguments, received {Parser.tokenizer.next.value}")
+                if isinstance(Parser.tokenizer.next, CloseParenthesisToken):
+                    Parser.last_node = node
+                    Parser.tokenizer.select_next()
+                    if not isinstance(Parser.tokenizer.next, SemicolonToken):
+                        raise Exception(
+                            f"Missing semicolon marker after closing parenthesis, received {Parser.tokenizer.next.value}")
+                else:
+                    raise Exception(f"Missing closing parenthesis, received {Parser.tokenizer.next.value}")
+
+            else:
+                raise Exception(f"Unexpected token after identifier, received {Parser.tokenizer.next.value}")
 
         elif isinstance(Parser.tokenizer.next, PrintToken):
             node = PrintNode()
@@ -363,6 +428,11 @@ class Parser:
                 node.children.append(else_node)
                 Parser.last_node = node
 
+        elif isinstance(Parser.tokenizer.next, ReturnToken):
+            node = ReturnNode()
+            Parser.last_node = node
+            node.children.append(Parser.parse_rel_expression())
+
         else:
             node = Parser.parse_block()
             Parser.last_node = node
@@ -393,11 +463,107 @@ class Parser:
         return node
 
     @staticmethod
+    def parse_declaration() -> Node:
+        Parser.tokenizer.select_next()
+        if not isinstance(Parser.tokenizer.next, FnToken):
+            raise Exception(f"Invalid syntax, expected fn, received {Parser.tokenizer.next.value}")
+        Parser.tokenizer.select_next()
+        if not isinstance(Parser.tokenizer.next, IdentifierToken):
+            raise Exception(f"Invalid syntax, expected identifier of function, received {Parser.tokenizer.next.value}")
+
+        node = FuncDecNode(Parser.tokenizer.next.value)
+        node.children.append(IdentifierNode(Parser.tokenizer.next.value))
+        Parser.last_node = node
+
+        Parser.tokenizer.select_next()
+        if not isinstance(Parser.tokenizer.next, OpenParenthesisToken):
+            raise Exception(f"Invalid syntax, expected open parenthesis, received {Parser.tokenizer.next.value}")
+
+        expect_identifier = False
+        while not isinstance(Parser.tokenizer.next, CloseParenthesisToken):
+            Parser.tokenizer.select_next()
+
+            if isinstance(Parser.tokenizer.next, IdentifierToken):
+                expect_identifier = False
+                child = VarDeclarationNode()
+                Parser.last_node = child
+
+                while isinstance(Parser.tokenizer.next, (CommaToken, IdentifierToken)):
+                    if isinstance(Parser.tokenizer.next, CommaToken):
+                        Parser.tokenizer.select_next()
+                        next_expected_token = IdentifierToken
+                    if isinstance(Parser.tokenizer.next, IdentifierToken):
+                        next_expected_token = (CommaToken, ColonToken)
+                    child.children.append(IdentifierNode(Parser.tokenizer.next.value))
+                    Parser.tokenizer.select_next()
+                    if not isinstance(Parser.tokenizer.next, next_expected_token):
+                        raise Exception(
+                            f"Expected {next_expected_token().type} token, instead received {Parser.tokenizer.next.value}")
+
+                if isinstance(Parser.tokenizer.next, ColonToken):
+                    Parser.tokenizer.select_next()
+                    if isinstance(Parser.tokenizer.next, TypeToken):
+                        if Parser.tokenizer.next.value == 'String':
+                            child.cast_function = str
+                        elif Parser.tokenizer.next.value == 'i32':
+                            child.cast_function = int
+                    else:
+                        raise Exception(
+                            f'Missing type declaration of variable(s) {", ".join([_child.value for _child in child.children])}')
+                else:
+                    raise Exception(f"Missing colon token, received {Parser.tokenizer.next.value}")
+
+                Parser.tokenizer.select_next()
+                if isinstance(Parser.tokenizer.next, CommaToken):
+                    expect_identifier = True
+
+                node.children.append(child)
+
+            elif isinstance(Parser.tokenizer.next, RightArrowToken):
+                raise Exception(
+                    f"Missing close parenthesis at parse declaration, received {Parser.tokenizer.next.value}")
+
+            elif isinstance(Parser.tokenizer.next, CloseParenthesisToken):
+                break
+
+            else:
+                raise Exception(f"Invalid token, received {Parser.tokenizer.next.value}")
+
+        if expect_identifier:
+            raise Exception(f"Expected identifier after comma")
+
+        Parser.tokenizer.select_next()
+        if isinstance(Parser.tokenizer.next, RightArrowToken):
+            Parser.tokenizer.select_next()
+            if not isinstance(Parser.tokenizer.next, TypeToken):
+                raise Exception(f"Expected type declaration of function")
+
+            node.type = Parser.tokenizer.next.value
+            Parser.tokenizer.select_next()
+
+        node.children.append(Parser.parse_block())
+
+        return node
+
+    @staticmethod
+    def parse_program() -> Node:
+        root = BlockNode()
+        Parser.last_node = root
+
+        while not isinstance(Parser.tokenizer.next, EOFToken):
+            root.children.append(Parser.parse_declaration())
+            Parser.last_node = root
+            if isinstance(Parser.tokenizer.see_next()[0], EOFToken):
+                Parser.tokenizer.select_next()
+
+        return root
+
+    @staticmethod
     def run(code: str) -> Node:
         Parser.tokenizer = Tokenizer(code + "\0")
-        Parser.tokenizer.select_next()
-        root = Parser.parse_block()
-        Parser.tokenizer.select_next()
+        root = Parser.parse_program()
+        root.value = 'Root'
+        root.children.append(FuncCallNode('Main'))
         if not isinstance(Parser.tokenizer.next, EOFToken):
             raise Exception(f"Invalid syntax, instead of EOF ends with {Parser.tokenizer.next.value}")
         return root

@@ -7,94 +7,24 @@ class BinaryOpNode(Node):
     def __init__(self, value: str):
         super().__init__(value)
 
-    def evaluate(self):
+    def evaluate(self, symbol_table):
         if self.value == '+':
-            return f'''
-                ; {self.children[0].value} + {self.children[1].value}
-                {self.children[0].evaluate()}
-                PUSH EBX
-                {self.children[1].evaluate()}
-                POP EAX
-                ADD EAX, EBX
-                MOV EBX, EAX
-            '''
+            return self.children[0].evaluate(symbol_table) + self.children[1].evaluate(symbol_table)
         if self.value == '-':
-            return f'''
-                ; {self.children[0].value} - {self.children[1].value}
-                {self.children[0].evaluate()}
-                PUSH EBX
-                {self.children[1].evaluate()}
-                POP EAX
-                SUB EAX, EBX
-                MOV EBX, EAX
-            '''
+            return self.children[0].evaluate(symbol_table) - self.children[1].evaluate(symbol_table)
         if self.value == '*':
-            return f'''
-                ; {self.children[0].value} * {self.children[1].value}
-                {self.children[0].evaluate()}
-                PUSH EBX
-                {self.children[1].evaluate()}
-                POP EAX
-                IMUL EBX
-                MOV EBX, EAX
-            '''
+            return self.children[0].evaluate(symbol_table) * self.children[1].evaluate(symbol_table)
         if self.value == '/':
-            return f'''
-                ; {self.children[0].value} / {self.children[1].value}
-                {self.children[0].evaluate()}
-                PUSH EBX
-                {self.children[1].evaluate()}
-                POP EAX
-                IDIV EBX
-                MOV EBX, EAX
-            '''
+            return self.children[0].evaluate(symbol_table) // self.children[1].evaluate(symbol_table)
         if self.value == '&&':
-            return f'''
-                ; {self.children[0].value} && {self.children[1].value}
-                {self.children[0].evaluate()}
-                PUSH EBX
-                {self.children[1].evaluate()}
-                POP EAX
-                AND EAX, EBX
-                MOV EBX, EAX
-            '''
+            return self.children[0].evaluate(symbol_table) & self.children[1].evaluate(symbol_table)
         if self.value == '||':
-            return f'''
-                ; {self.children[0].value} || {self.children[1].value}
-                {self.children[0].evaluate()}
-                PUSH EBX
-                {self.children[1].evaluate()}
-                POP EAX
-                OR EAX, EBX
-                MOV EBX, EAX
-            '''
+            return self.children[0].evaluate(symbol_table) | self.children[1].evaluate(symbol_table)
         if self.value == '==':
-            return f'''
-                ; {self.children[0].value} == {self.children[1].value}
-                {self.children[0].evaluate()}
-                PUSH EBX
-                {self.children[1].evaluate()}
-                POP EAX
-                CMP EAX, EBX
-                CALL binop_je
-            '''
+            return self.children[0].evaluate(symbol_table) == self.children[1].evaluate(symbol_table)
         if self.value == '>':
-            return f'''
-                ; {self.children[0].value} > {self.children[1].value}
-                {self.children[0].evaluate()}
-                PUSH EBX
-                {self.children[1].evaluate()}
-                POP EAX
-                CMP EAX, EBX
-                CALL binop_jg
-            '''
+            return self.children[0].evaluate(symbol_table) > self.children[1].evaluate(symbol_table)
         if self.value == '<':
-            return f'''
-                ; {self.children[0].value} < {self.children[1].value}
-                {self.children[0].evaluate()}
-                PUSH EBX
-                {self.children[1].evaluate()}
-                POP EAX
-                CMP EAX, EBX
-                CALL binop_jl
-            '''
+            return self.children[0].evaluate(symbol_table) < self.children[1].evaluate(symbol_table)
+        if self.value == '.':
+            return self.children[0].evaluate(symbol_table).__concat__(self.children[1].evaluate(symbol_table))

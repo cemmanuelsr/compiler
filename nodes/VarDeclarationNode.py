@@ -1,14 +1,12 @@
 from .Node import Node
-from symbol_tables import symbol_table
+from dataclasses.Variable import Variable
 
 
 class VarDeclarationNode(Node):
-    def __init__(self):
+    def __init__(self, cast_function=None):
         super().__init__('VarDec')
+        self.cast_function = cast_function
 
-    def evaluate(self):
-        to_return = ''
+    def evaluate(self, symbol_table):
         for child in self.children:
-            symbol_table.create(child.value)
-            to_return += 'PUSH DWORD 0\n'
-        return to_return
+            symbol_table.create(child.value, Variable(0 if self.cast_function == int else '', self.cast_function))

@@ -5,10 +5,10 @@ class BlockNode(Node):
     def __init__(self):
         super().__init__('Block')
 
-    def evaluate(self):
-        asm = ''
+    def evaluate(self, symbol_table):
         for child in self.children:
             if child is not None:
-                asm += child.evaluate()
+                to_return = child.evaluate(symbol_table)
 
-        return asm
+        if self.value != 'Root':
+            return to_return

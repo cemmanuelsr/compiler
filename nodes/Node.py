@@ -1,4 +1,5 @@
 from dataclasses.List import List
+from dataclasses.Variable import Variable
 from processes.WriteDotFile import Writer
 from dataclasses.IdGiver import IdGiver
 
@@ -11,5 +12,5 @@ class Node:
         self.children = List(self)
         Writer.create_node_name(self)
 
-    def evaluate(self) -> str:
+    def evaluate(self, symbol_table) -> Variable:
         ...

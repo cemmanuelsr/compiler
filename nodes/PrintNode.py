@@ -5,11 +5,5 @@ class PrintNode(Node):
     def __init__(self):
         super().__init__('Print')
 
-    def evaluate(self):
-        return f'''
-            {self.children[0].evaluate()}
-            
-            PUSH EBX
-            CALL print
-            POP EBX
-        '''
+    def evaluate(self, symbol_table):
+        print(self.children[0].evaluate(symbol_table)())
