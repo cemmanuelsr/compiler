@@ -9,8 +9,11 @@
 ## EBNF
 
 ```
+PROGRAM = { DECLARATION } ;
+DECLARATION = "fn", IDENTIFIER, "(", ( "" | ARGUMENT, { ",", ARGUMENT } ), ")", ( "" | "->", TYPE ), BLOCK ;
+ARGUMENT = IDENTIFIER, { "," }, ":", TYPE ;
 BLOCK = "{", { STATEMENT }, "}" ;
-STATEMENT = (( λ | ASSIGNMENT | PRINT | (VAR, IDENTIFIER, {",", IDENTIFIER}, ":", TYPE) ), ";" | ( LOOP | CONDITION | BLOCK )) ;
+STATEMENT = (( λ | ASSIGNMENT | PRINT | ("var", IDENTIFIER, {",", IDENTIFIER}, ":", TYPE) ), ";" | ( LOOP | CONDITION | BLOCK ) | "return" REL_EXPRESSION ) ;
 ASSIGNMENT = IDENTIFIER, "=", REL_EXPRESSION ;
 PRINT = "Print", "(", REL_EXPRESSION, ")" ;
 LOOP = "while", "(", REL_EXPRESSION, ")", STATEMENT ;
@@ -18,7 +21,7 @@ CONDITION = "if", "(", REL_EXPRESSION, ")", STATEMENT, ( λ | "else", STATEMENT 
 REL_EXPRESSION = EXPRESSION, { ("==" | ">" | "<" | "."), EXPRESSION } ;
 EXPRESSION = TERM, { ("+" | "-" | "||"), TERM } ;
 TERM = FACTOR, { ("*" | "/", "&&"), FACTOR } ;
-FACTOR = (("+" | "-" | "!"), FACTOR) | NUMBER | "(", EXPRESSION, ")" | IDENTIFIER | "Read", "(", ")" ;
+FACTOR = (("+" | "-" | "!"), FACTOR) | NUMBER | "(", EXPRESSION, ")" | IDENTIFIER, ( "" | "(", ( "" | REL_EXPRESSION, { ",", REL_EXPRESSION } ), ")" ) | "Read", "(", ")" ;
 IDENTIFIER = LETTER, { LETTER | DIGIT | "_" } ;
 NUMBER = DIGIT, { DIGIT } ;
 LETTER = ( a | ... | z | A | ... | Z ) ;
