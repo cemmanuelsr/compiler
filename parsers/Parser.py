@@ -132,7 +132,7 @@ class Parser:
     def parse_term() -> Node:
         if is_a_possible_token(Parser.tokenizer.next):
             node = Parser.parse_factor()
-            while isinstance(Parser.tokenizer.next, (MultToken, DivToken, AndToken)):
+            while isinstance(Parser.tokenizer.next, (MultToken, AndToken)):
                 if isinstance(Parser.tokenizer.next, MultToken):
                     Parser.tokenizer.select_next()
                     if is_a_possible_token(Parser.tokenizer.next):
@@ -144,32 +144,56 @@ class Parser:
                         Parser.last_node = node
                     else:
                         raise Exception(f"Invalid token after *, received {Parser.tokenizer.next.value}")
-                elif isinstance(Parser.tokenizer.next, DivToken):
-                    Parser.tokenizer.select_next()
-                    if is_a_possible_token(Parser.tokenizer.next):
-                        _node = BinaryOpNode('/')
-                        _node.children.append(node)
-                        Parser.last_node = _node
-                        _node.children.append(Parser.parse_factor())
-                        node = _node
-                        Parser.last_node = node
-                    else:
-                        raise Exception(f"Invalid token after /, received {Parser.tokenizer.next.value}")
                 elif isinstance(Parser.tokenizer.next, AndToken):
                     Parser.tokenizer.select_next()
                     if is_a_possible_token(Parser.tokenizer.next):
-                        _node = BinaryOpNode('&&')
+                        _node = BinaryOpNode('&')
                         _node.children.append(node)
                         Parser.last_node = _node
                         _node.children.append(Parser.parse_factor())
                         node = _node
                         Parser.last_node = node
                     else:
-                        raise Exception(f"Invalid token after &&, received {Parser.tokenizer.next.value}")
+                        raise Exception(f"Invalid token after &, received {Parser.tokenizer.next.value}")
 
             Parser.last_node = node
             return node
-        raise Exception(f"Parse term could not resolve for {Parser.tokenizer.next.value}")
+
+        elif isinstance(Parser.tokenizer.next, DivToken):
+            node = BinaryOpNode('/')
+            Parser.tokenizer.select_next()
+
+            if not isinstance(Parser.tokenizer.next, OpenBracketToken):
+                raise Exception(f"Expected open bracket after fraction, received {Parser.tokenizer.next.value}")
+            Parser.tokenizer.select_next()
+
+            if is_a_possible_token(Parser.tokenizer.next):
+                node.children.append(Parser.parse_factor())
+                Parser.last_node = node
+            else:
+                raise Exception(f"Invalid token after /, received {Parser.tokenizer.next.value}")
+
+            if not isinstance(Parser.tokenizer.next, CloseBracketToken):
+                raise Exception(f"Expected close bracket, received {Parser.tokenizer.next.value}")
+            Parser.tokenizer.select_next()
+
+            if not isinstance(Parser.tokenizer.next, OpenBracketToken):
+                raise Exception(f"Expected open bracket after fraction, received {Parser.tokenizer.next.value}")
+            Parser.tokenizer.select_next()
+
+            if is_a_possible_token(Parser.tokenizer.next):
+                node.children.append(Parser.parse_factor())
+                Parser.last_node = node
+            else:
+                raise Exception(f"Invalid token after /, received {Parser.tokenizer.next.value}")
+
+            if not isinstance(Parser.tokenizer.next, CloseBracketToken):
+                raise Exception(f"Expected close bracket, received {Parser.tokenizer.next.value}")
+
+            return node
+
+        else:
+            raise Exception(f"Parse term could not resolve for {Parser.tokenizer.next.value}")
 
     @staticmethod
     def parse_expression() -> Node:
