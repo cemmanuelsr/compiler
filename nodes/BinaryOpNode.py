@@ -14,11 +14,11 @@ class BinaryOpNode(Node):
             return self.children[0].evaluate(symbol_table) * self.children[1].evaluate(symbol_table)
         if self.value == '/':
             return self.children[0].evaluate(symbol_table) // self.children[1].evaluate(symbol_table)
-        if self.value == '&&':
+        if self.value == '&':
             return self.children[0].evaluate(symbol_table) & self.children[1].evaluate(symbol_table)
-        if self.value == '||':
+        if self.value == '|':
             return self.children[0].evaluate(symbol_table) | self.children[1].evaluate(symbol_table)
-        if self.value == '==':
+        if self.value == '=':
             return self.children[0].evaluate(symbol_table) == self.children[1].evaluate(symbol_table)
         if self.value == '>':
             return self.children[0].evaluate(symbol_table) > self.children[1].evaluate(symbol_table)

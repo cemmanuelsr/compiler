@@ -29,10 +29,10 @@ from nodes.UnaryOpNode import UnaryOpNode
 from nodes.BinaryOpNode import BinaryOpNode
 from nodes.AssignmentNode import AssignmentNode
 from nodes.IdentifierNode import IdentifierNode
-from nodes.PrintNode import PrintNode
+from nodes.WriteNode import WriteNode
 from nodes.ReadNode import ReadNode
 from nodes.ConditionNode import ConditionNode
-from nodes.WhileNode import WhileNode
+from nodes.IteratorNode import IteratorNode
 from nodes.StringNode import StringNode
 from nodes.VarDeclarationNode import VarDeclarationNode
 from nodes.FuncDecNode import FuncDecNode
@@ -358,7 +358,7 @@ class Parser:
                 raise Exception(f"Unexpected token after identifier, received {Parser.tokenizer.next.value}")
 
         elif isinstance(Parser.tokenizer.next, WriteToken):
-            node = PrintNode()
+            node = WriteNode()
             Parser.last_node = node
 
             Parser.tokenizer.select_next()
@@ -379,7 +379,7 @@ class Parser:
                 raise Exception(f"Missing semicolon marker after Print, received {Parser.tokenizer.next.value}")
 
         elif isinstance(Parser.tokenizer.next, IterationToken):
-            node = WhileNode()
+            node = IteratorNode()
             Parser.last_node = node
 
             Parser.tokenizer.select_next()
