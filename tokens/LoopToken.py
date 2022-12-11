@@ -6,10 +6,10 @@ class LoopToken(Token):
         super().__init__(value)
 
 
-class WhileToken(LoopToken):
+class IterationToken(LoopToken):
     def __init__(self) -> None:
-        super().__init__('while')
+        super().__init__('Iterator')
 
     @property
     def type(self) -> str:
-        return 'WHILE'
+        return 'ITERATION'

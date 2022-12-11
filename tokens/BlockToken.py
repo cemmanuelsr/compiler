@@ -1,24 +1,24 @@
 from .Token import Token
 
 
-class FunctionToken(Token):
+class BlockToken(Token):
     def __init__(self, value) -> None:
         super().__init__(value)
 
 
-class WriteToken(FunctionToken):
+class OpenBlockToken(BlockToken):
     def __init__(self) -> None:
-        super().__init__('Write')
+        super().__init__('Open Block')
 
     @property
     def type(self) -> str:
-        return 'Write'
+        return 'OPEN BLOCK'
 
 
-class ReadToken(FunctionToken):
+class CloseBlockToken(BlockToken):
     def __init__(self) -> None:
-        super().__init__('Read')
+        super().__init__('Close Block')
 
     @property
     def type(self) -> str:
-        return 'READ'
+        return 'CLOSE BLOCK'

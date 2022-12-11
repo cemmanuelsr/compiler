@@ -8,7 +8,7 @@ class ConditionalToken(Token):
 
 class IfToken(ConditionalToken):
     def __init__(self) -> None:
-        super().__init__('if')
+        super().__init__('If')
 
     @property
     def type(self) -> str:
@@ -17,7 +17,7 @@ class IfToken(ConditionalToken):
 
 class ElseToken(ConditionalToken):
     def __init__(self) -> None:
-        super().__init__('else')
+        super().__init__('Else')
 
     @property
     def type(self) -> str:

@@ -44,7 +44,7 @@ class DivToken(OperatorToken):
 
 class AndToken(OperatorToken):
     def __init__(self) -> None:
-        super().__init__('&&')
+        super().__init__('&')
 
     @property
     def type(self) -> str:
@@ -53,7 +53,7 @@ class AndToken(OperatorToken):
 
 class OrToken(OperatorToken):
     def __init__(self) -> None:
-        super().__init__('||')
+        super().__init__('|')
 
     @property
     def type(self) -> str:
@@ -71,7 +71,7 @@ class NotToken(OperatorToken):
 
 class EqualToken(OperatorToken):
     def __init__(self) -> None:
-        super().__init__('==')
+        super().__init__('=')
 
     @property
     def type(self) -> str:
@@ -94,3 +94,12 @@ class LessThenToken(OperatorToken):
     @property
     def type(self) -> str:
         return 'LESS THEN'
+
+
+class CupToken(OperatorToken):
+    def __init__(self) -> None:
+        super().__init__('.')
+
+    @property
+    def type(self) -> str:
+        return 'CONCAT'

@@ -1,10 +1,10 @@
 from .Token import Token
 
 
-class VarDeclarationToken(Token):
+class HatToken(Token):
     def __init__(self) -> None:
-        super().__init__('var')
+        super().__init__('^')
 
     @property
     def type(self) -> str:
-        return 'VAR DECLARATION'
+        return 'HAT'

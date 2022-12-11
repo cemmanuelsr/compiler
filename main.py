@@ -7,8 +7,8 @@ if __name__ == "__main__":
 
     file = sys.argv[1]
     filename = file.split('/')[-1].split('.')[:-1][0]
-    if file.split('.')[-1] != 'carbon':
-        raise Exception('You must pass a carbon file')
+    if file.split('.')[-1] != 'tex':
+        raise Exception('You must pass a tex file')
 
     with open(file, "r") as f:
         code = f.read()

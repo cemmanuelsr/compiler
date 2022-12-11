@@ -1,36 +1,28 @@
 from tokens.Token import Token
 from tokens.OperatorToken import PlusToken, MinusToken, MultToken, DivToken, AndToken, OrToken, NotToken, EqualToken, \
-    GreaterThenToken, LessThenToken
+    GreaterThenToken, LessThenToken, CupToken
 from tokens.NumericToken import NumericToken
 from tokens.EOFToken import EOFToken
 from tokens.ParenthesisToken import OpenParenthesisToken, CloseParenthesisToken
 from tokens.BracketToken import OpenBracketToken, CloseBracketToken
 from tokens.AssignmentToken import AssignmentToken
 from tokens.IdentifierToken import IdentifierToken
-from tokens.FunctionToken import PrintToken, ReadToken
-from tokens.SemicolonToken import SemicolonToken
+from tokens.FunctionToken import WriteToken, ReadToken
+from tokens.BlockToken import OpenBlockToken, CloseBlockToken
 from tokens.ConditionalToken import IfToken, ElseToken
-from tokens.LoopToken import WhileToken
+from tokens.LoopToken import IterationToken
 from tokens.ColonToken import ColonToken
 from tokens.CommaToken import CommaToken
-from tokens.DotToken import DotToken
-from tokens.TypeToken import TypeToken
-from tokens.VarDeclarationToken import VarDeclarationToken
+from tokens.HatToken import HatToken
 from tokens.StringToken import StringToken
-from tokens.FnToken import FnToken
-from tokens.RightArrowToken import RightArrowToken
 from tokens.ReturnToken import ReturnToken
 
 func_token_map = {
-    'Print': PrintToken,
+    'Write': WriteToken,
     'Read': ReadToken,
-    'while': WhileToken,
-    'if': IfToken,
-    'else': ElseToken,
-    'var': VarDeclarationToken,
-    'i32': TypeToken,
-    'String': TypeToken,
-    'fn': FnToken,
+    'Iterator': IterationToken,
+    'If': IfToken,
+    'Else': ElseToken,
     'return': ReturnToken
 }
 
@@ -67,12 +59,7 @@ class Tokenizer:
             functions = func_token_map.keys()
 
             if name in functions:
-                if name == 'i32':
-                    next = func_token_map[name]('i32')
-                elif name == 'String':
-                    next = func_token_map[name]('String')
-                else:
-                    next = func_token_map[name]()
+                next = func_token_map[name]()
             else:
                 next = IdentifierToken(name)
         elif c == '"':
@@ -89,16 +76,15 @@ class Tokenizer:
             position = i+1
 
             next = StringToken(name)
+        elif c == '^':
+            next = HatToken()
+            position += 1
         elif c == '+':
             next = PlusToken()
             position += 1
         elif c == '-':
-            if position + 1 < str_size and self.source[position + 1] == '>':
-                next = RightArrowToken()
-                position += 2
-            else:
-                next = MinusToken()
-                position += 1
+            next = MinusToken()
+            position += 1
         elif c == '*':
             next = MultToken()
             position += 1
@@ -106,17 +92,11 @@ class Tokenizer:
             next = DivToken()
             position += 1
         elif c == '&':
-            if position + 1 < str_size and self.source[position + 1] == '&':
-                next = AndToken()
-                position += 2
-            else:
-                raise Exception('Invalid syntax')
+            next = AndToken()
+            position += 1
         elif c == '|':
-            if position + 1 < str_size and self.source[position + 1] == '|':
-                next = OrToken()
-                position += 2
-            else:
-                raise Exception('Invalid syntax')
+            next = OrToken()
+            position += 1
         elif c == '!':
             next = NotToken()
             position += 1
@@ -132,24 +112,33 @@ class Tokenizer:
         elif c == '}':
             next = CloseBracketToken()
             position += 1
-        elif c == ';':
-            next = SemicolonToken()
-            position += 1
-        elif c == '=':
-            if position + 1 < str_size and self.source[position + 1] == '=':
-                next = EqualToken()
-                position += 2
+        elif c == '\\':
+            if position + 1 < str_size:
+                if self.source[position + 1] == '[':
+                    next = OpenBlockToken()
+                    position += 2
+                elif self.source[position + 1] == ']':
+                    next = CloseBlockToken()
+                    position += 2
+                else:
+                    raise Exception('Invalid token')
             else:
-                next = AssignmentToken()
-                position += 1
+                raise Exception('Invalid token')
+        elif c == '=':
+            next = EqualToken()
+            position += 1
         elif c == '>':
             next = GreaterThenToken()
             position += 1
         elif c == '<':
-            next = LessThenToken()
-            position += 1
+            if position + 1 < str_size and self.source[position + 1] == '-':
+                next = AssignmentToken()
+                position += 2
+            else:
+                next = LessThenToken()
+                position += 1
         elif c == '.':
-            next = DotToken()
+            next = CupToken()
             position += 1
         elif c == ',':
             next = CommaToken()
