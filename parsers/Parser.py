@@ -44,7 +44,8 @@ def is_a_possible_token(token):
 
 
 possible_rel_expression_first_token = (
-    IdentifierToken, NumericToken, PlusToken, MinusToken, OpenParenthesisToken, NotToken, ReadToken, StringToken)
+    IdentifierToken, NumericToken, PlusToken, MinusToken, OpenParenthesisToken, NotToken, ReadToken, StringToken,
+    DivToken)
 
 
 class Parser:
@@ -189,6 +190,7 @@ class Parser:
 
             if not isinstance(Parser.tokenizer.next, CloseBracketToken):
                 raise Exception(f"Expected close bracket, received {Parser.tokenizer.next.value}")
+            Parser.tokenizer.select_next()
 
             return node
 
@@ -197,7 +199,7 @@ class Parser:
 
     @staticmethod
     def parse_expression() -> Node:
-        if is_a_possible_token(Parser.tokenizer.next):
+        if is_a_possible_token(Parser.tokenizer.next) or isinstance(Parser.tokenizer.next, DivToken):
             node = Parser.parse_term()
             while isinstance(Parser.tokenizer.next, (PlusToken, MinusToken, OrToken)):
                 if isinstance(Parser.tokenizer.next, PlusToken):
@@ -241,7 +243,7 @@ class Parser:
     def parse_rel_expression() -> Node:
         Parser.tokenizer.select_next()
 
-        if is_a_possible_token(Parser.tokenizer.next):
+        if is_a_possible_token(Parser.tokenizer.next) or isinstance(Parser.tokenizer.next, DivToken):
             node = Parser.parse_expression()
             while isinstance(Parser.tokenizer.next, (EqualToken, GreaterThenToken, LessThenToken, CupToken)):
                 if isinstance(Parser.tokenizer.next, EqualToken):
@@ -406,7 +408,6 @@ class Parser:
             while not isinstance(Parser.tokenizer.next, CloseBlockToken):
                 node.children.append(Parser.parse_statement())
                 Parser.last_node = node
-                Parser.tokenizer.select_next()
                 if isinstance(Parser.tokenizer.next, EOFToken):
                     raise Exception(f"Missing close block token at parse block, received EOF")
         else:
@@ -426,21 +427,23 @@ class Parser:
             Parser.tokenizer.select_next()
             Parser.tokenizer.select_next()
 
-            if isinstance(Parser.tokenizer.next, IdentifierToken):
+            if not isinstance(Parser.tokenizer.next, IdentifierToken):
                 raise Exception(f"Expected argument to be an identifier, got {Parser.tokenizer.next.value}")
 
-            while isinstance(Parser.tokenizer.next, (CommaToken, IdentifierToken)):
-                if isinstance(Parser.tokenizer.next, CommaToken):
+            while isinstance(Parser.tokenizer.next, (MultToken, IdentifierToken)):
+                if isinstance(Parser.tokenizer.next, MultToken):
                     Parser.tokenizer.select_next()
                     next_expected_token = IdentifierToken
                 if isinstance(Parser.tokenizer.next, IdentifierToken):
-                    next_expected_token = (CommaToken, ToToken)
+                    next_expected_token = (MultToken, OpenBlockToken)
                 node.children.append(IdentifierNode(Parser.tokenizer.next.value))
                 Parser.tokenizer.select_next()
                 if not isinstance(Parser.tokenizer.next, next_expected_token):
                     raise Exception(
-                        f"Expected {next_expected_token().type} token, instead received {Parser.tokenizer.next.value}")
+                        f"Expected {next_expected_token} token, instead received {Parser.tokenizer.next.value}")
 
+        else:
+            Parser.tokenizer.select_next()
         node.children.append(Parser.parse_block())
 
         return node
