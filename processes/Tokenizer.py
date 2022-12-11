@@ -6,6 +6,7 @@ from tokens.EOFToken import EOFToken
 from tokens.ParenthesisToken import OpenParenthesisToken, CloseParenthesisToken
 from tokens.BracketToken import OpenBracketToken, CloseBracketToken
 from tokens.AssignmentToken import AssignmentToken
+from tokens.ToToken import ToToken
 from tokens.IdentifierToken import IdentifierToken
 from tokens.FunctionToken import WriteToken, ReadToken
 from tokens.BlockToken import OpenBlockToken, CloseBlockToken
@@ -83,8 +84,12 @@ class Tokenizer:
             next = PlusToken()
             position += 1
         elif c == '-':
-            next = MinusToken()
-            position += 1
+            if position + 1 < str_size and self.source[position + 1] == '>':
+                next = ToToken()
+                position += 2
+            else:
+                next = MinusToken()
+                position += 1
         elif c == '*':
             next = MultToken()
             position += 1

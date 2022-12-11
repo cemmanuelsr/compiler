@@ -19,6 +19,7 @@ class PrePro:
         code = code.replace("\\cdot", "*")
         code = code.replace("\\frac", "/")
         code = code.replace("\\neg", "!")
+        code = code.replace("\\to", "->")
         return code
 
     @staticmethod

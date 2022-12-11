@@ -1,26 +1,23 @@
 from processes.Tokenizer import Tokenizer
 
-from tokens.NumericToken import NumericToken
 from tokens.OperatorToken import PlusToken, MinusToken, MultToken, DivToken, AndToken, OrToken, NotToken, EqualToken, \
-    GreaterThenToken, LessThenToken
+    GreaterThenToken, LessThenToken, CupToken
+from tokens.NumericToken import NumericToken
+from tokens.EOFToken import EOFToken
 from tokens.ParenthesisToken import OpenParenthesisToken, CloseParenthesisToken
-from tokens.BlockToken import OpenBlockToken, CloseBlockToken
-from tokens.IdentifierToken import IdentifierToken
+from tokens.BracketToken import OpenBracketToken, CloseBracketToken
 from tokens.AssignmentToken import AssignmentToken
+from tokens.IdentifierToken import IdentifierToken
 from tokens.FunctionToken import WriteToken, ReadToken
-from tokens.SemicolonToken import SemicolonToken
+from tokens.BlockToken import OpenBlockToken, CloseBlockToken
 from tokens.ConditionalToken import IfToken, ElseToken
 from tokens.LoopToken import IterationToken
 from tokens.ColonToken import ColonToken
 from tokens.CommaToken import CommaToken
-from tokens.DotToken import DotToken
+from tokens.HatToken import HatToken
 from tokens.StringToken import StringToken
-from tokens.TypeToken import TypeToken
-from tokens.VarDeclarationToken import VarDeclarationToken
-from tokens.FnToken import FnToken
-from tokens.RightArrowToken import RightArrowToken
 from tokens.ReturnToken import ReturnToken
-from tokens.EOFToken import EOFToken
+from tokens.ToToken import ToToken
 
 from nodes.Node import Node
 from nodes.NoOpNode import NoOpNode
@@ -34,7 +31,6 @@ from nodes.ReadNode import ReadNode
 from nodes.ConditionNode import ConditionNode
 from nodes.IteratorNode import IteratorNode
 from nodes.StringNode import StringNode
-from nodes.VarDeclarationNode import VarDeclarationNode
 from nodes.FuncDecNode import FuncDecNode
 from nodes.FuncCallNode import FuncCallNode
 from nodes.ReturnNode import ReturnNode
@@ -44,7 +40,7 @@ from nodes.BlockNode import BlockNode
 def is_a_possible_token(token):
     return isinstance(token,
                       (NumericToken, PlusToken, MinusToken, OpenParenthesisToken, IdentifierToken, NotToken, ReadToken,
-                       StringToken, DotToken))
+                       StringToken, CupToken))
 
 
 possible_rel_expression_first_token = (
@@ -223,7 +219,7 @@ class Parser:
 
         if is_a_possible_token(Parser.tokenizer.next):
             node = Parser.parse_expression()
-            while isinstance(Parser.tokenizer.next, (EqualToken, GreaterThenToken, LessThenToken, DotToken)):
+            while isinstance(Parser.tokenizer.next, (EqualToken, GreaterThenToken, LessThenToken, CupToken)):
                 if isinstance(Parser.tokenizer.next, EqualToken):
                     Parser.tokenizer.select_next()
                     if is_a_possible_token(Parser.tokenizer.next):
@@ -257,7 +253,7 @@ class Parser:
                         Parser.last_node = node
                     else:
                         raise Exception(f"Invalid token after <, received {Parser.tokenizer.next.value}")
-                elif isinstance(Parser.tokenizer.next, DotToken):
+                elif isinstance(Parser.tokenizer.next, CupToken):
                     Parser.tokenizer.select_next()
                     if is_a_possible_token(Parser.tokenizer.next):
                         _node = BinaryOpNode('.')
@@ -455,9 +451,9 @@ class Parser:
                 Parser.last_node = node
                 Parser.tokenizer.select_next()
                 if isinstance(Parser.tokenizer.next, EOFToken):
-                    raise Exception("Missing close bracket at parse block")
+                    raise Exception(f"Missing close block token at parse block, received EOF")
         else:
-            raise Exception(f"Missing open bracket at parse block, received {Parser.tokenizer.next.value}")
+            raise Exception(f"Missing open block token at parse block, received {Parser.tokenizer.next.value}")
 
         Parser.last_node = node
         return node
@@ -465,81 +461,28 @@ class Parser:
     @staticmethod
     def parse_declaration() -> Node:
         Parser.tokenizer.select_next()
-        if not isinstance(Parser.tokenizer.next, FnToken):
-            raise Exception(f"Invalid syntax, expected fn, received {Parser.tokenizer.next.value}")
-        Parser.tokenizer.select_next()
-        if not isinstance(Parser.tokenizer.next, IdentifierToken):
-            raise Exception(f"Invalid syntax, expected identifier of function, received {Parser.tokenizer.next.value}")
-
         node = FuncDecNode(Parser.tokenizer.next.value)
         node.children.append(IdentifierNode(Parser.tokenizer.next.value))
         Parser.last_node = node
 
-        Parser.tokenizer.select_next()
-        if not isinstance(Parser.tokenizer.next, OpenParenthesisToken):
-            raise Exception(f"Invalid syntax, expected open parenthesis, received {Parser.tokenizer.next.value}")
-
-        expect_identifier = False
-        while not isinstance(Parser.tokenizer.next, CloseParenthesisToken):
+        if isinstance(Parser.tokenizer.see_next()[0], ColonToken):
+            Parser.tokenizer.select_next()
             Parser.tokenizer.select_next()
 
             if isinstance(Parser.tokenizer.next, IdentifierToken):
-                expect_identifier = False
-                child = VarDeclarationNode()
-                Parser.last_node = child
+                raise Exception(f"Expected argument to be an identifier, got {Parser.tokenizer.next.value}")
 
-                while isinstance(Parser.tokenizer.next, (CommaToken, IdentifierToken)):
-                    if isinstance(Parser.tokenizer.next, CommaToken):
-                        Parser.tokenizer.select_next()
-                        next_expected_token = IdentifierToken
-                    if isinstance(Parser.tokenizer.next, IdentifierToken):
-                        next_expected_token = (CommaToken, ColonToken)
-                    child.children.append(IdentifierNode(Parser.tokenizer.next.value))
-                    Parser.tokenizer.select_next()
-                    if not isinstance(Parser.tokenizer.next, next_expected_token):
-                        raise Exception(
-                            f"Expected {next_expected_token().type} token, instead received {Parser.tokenizer.next.value}")
-
-                if isinstance(Parser.tokenizer.next, ColonToken):
-                    Parser.tokenizer.select_next()
-                    if isinstance(Parser.tokenizer.next, TypeToken):
-                        if Parser.tokenizer.next.value == 'String':
-                            child.cast_function = str
-                        elif Parser.tokenizer.next.value == 'i32':
-                            child.cast_function = int
-                    else:
-                        raise Exception(
-                            f'Missing type declaration of variable(s) {", ".join([_child.value for _child in child.children])}')
-                else:
-                    raise Exception(f"Missing colon token, received {Parser.tokenizer.next.value}")
-
-                Parser.tokenizer.select_next()
+            while isinstance(Parser.tokenizer.next, (CommaToken, IdentifierToken)):
                 if isinstance(Parser.tokenizer.next, CommaToken):
-                    expect_identifier = True
-
-                node.children.append(child)
-
-            elif isinstance(Parser.tokenizer.next, RightArrowToken):
-                raise Exception(
-                    f"Missing close parenthesis at parse declaration, received {Parser.tokenizer.next.value}")
-
-            elif isinstance(Parser.tokenizer.next, CloseParenthesisToken):
-                break
-
-            else:
-                raise Exception(f"Invalid token, received {Parser.tokenizer.next.value}")
-
-        if expect_identifier:
-            raise Exception(f"Expected identifier after comma")
-
-        Parser.tokenizer.select_next()
-        if isinstance(Parser.tokenizer.next, RightArrowToken):
-            Parser.tokenizer.select_next()
-            if not isinstance(Parser.tokenizer.next, TypeToken):
-                raise Exception(f"Expected type declaration of function")
-
-            node.type = Parser.tokenizer.next.value
-            Parser.tokenizer.select_next()
+                    Parser.tokenizer.select_next()
+                    next_expected_token = IdentifierToken
+                if isinstance(Parser.tokenizer.next, IdentifierToken):
+                    next_expected_token = (CommaToken, ToToken)
+                node.children.append(IdentifierNode(Parser.tokenizer.next.value))
+                Parser.tokenizer.select_next()
+                if not isinstance(Parser.tokenizer.next, next_expected_token):
+                    raise Exception(
+                        f"Expected {next_expected_token().type} token, instead received {Parser.tokenizer.next.value}")
 
         node.children.append(Parser.parse_block())
 
