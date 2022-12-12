@@ -2,6 +2,8 @@
 
 # Compiler
 
+Um compilador desenvolvido em Python para a linguagem Carbon.
+
 ## Diagrama Sintático
 
 ![diagrama sintatico](assets/img/diagrama-sintatico.svg)
