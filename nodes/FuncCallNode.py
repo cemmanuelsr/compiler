@@ -15,11 +15,6 @@ class FuncCallNode(Node):
 
         func_symbol_table = SymbolTable()
         for passed_arg, expected_arg in zip(self.children, function.reference.children[1:-1]):
-            if passed_arg.evaluate(symbol_table).cast_function != expected_arg.cast_function:
-                raise Exception(
-                    f'Incorrect type of argument {passed_arg.value}: expected {expected_arg.cast_function} and got {passed_arg.evaluate().cast_function}')
-
-            expected_arg.evaluate(func_symbol_table)
-            func_symbol_table.set(expected_arg.children[0].value, passed_arg.evaluate(symbol_table))
+            func_symbol_table.set(expected_arg.value, passed_arg.evaluate(symbol_table))
 
         return function.reference.children[-1].evaluate(func_symbol_table)

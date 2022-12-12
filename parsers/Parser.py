@@ -338,6 +338,7 @@ class Parser:
 
             if not isinstance(Parser.tokenizer.next, HatToken):
                 raise Exception(f"Missing hat token after sum, instead received {Parser.tokenizer.next.value}")
+            Parser.tokenizer.select_next()
 
             if isinstance(Parser.tokenizer.next, OpenBracketToken):
                 result = Parser.parse_rel_expression()
@@ -380,6 +381,8 @@ class Parser:
                 Parser.last_node = else_node
                 Parser.tokenizer.select_next()
                 else_node.children.append(Parser.parse_statement())
+                if isinstance(Parser.tokenizer.next, CloseBlockToken):
+                    Parser.tokenizer.select_next()
                 node.children.append(else_node)
                 Parser.last_node = node
 
@@ -444,7 +447,9 @@ class Parser:
 
         else:
             Parser.tokenizer.select_next()
-        node.children.append(Parser.parse_block())
+
+        if not isinstance(Parser.tokenizer.next, EOFToken):
+            node.children.append(Parser.parse_block())
 
         return node
 
